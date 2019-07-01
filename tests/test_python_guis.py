@@ -1,4 +1,4 @@
-from strainmap import inc
+from python_guis import inc
 
 
 def test_inc():
