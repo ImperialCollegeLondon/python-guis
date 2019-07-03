@@ -83,8 +83,8 @@ Notebook (Jupyter Widgets and Tkinter) and PageLayout (Kivy) are both used to cr
 
 In both cases, it is recommended - although not necessary - that each of the tabs/pages to be a container/layout widget itself as those shown above with as many children widgets as needed. 
 
+Jupyter Widgets notebook with 3 tabs:
 ```python
-# Jupyter Widgets notebook with 3 tabs
 hbox1 = widgets.HBox()
 hbox2 = widgets.HBox()
 hbox3 = widgets.HBox()
@@ -92,8 +92,10 @@ hbox3 = widgets.HBox()
 book = widgets.Tab()
 
 book.children = [hbox1, hbox2, hbox3]
+```
 
-# Tkinter notebook with 3 tabs
+Tkinter notebook with 3 tabs:
+```python
 book = ttk.Notebook(master=parent_container)
 
 hbox1 = ttk.Frame(master=book)
@@ -103,8 +105,10 @@ hbox3 = ttk.Frame(master=book)
 book.add(hbox1)
 book.add(hbox2)
 book.add(hbox3)
+```
 
-# Kivy PageLayout with 3 pages
+Kivy PageLayout with 3 pages:
+```python
 hbox1 = uix.boxlayout.BoxLayout()
 hbox2 = uix.boxlayout.BoxLayout()
 hbox3 = uix.boxlayout.BoxLayout()
