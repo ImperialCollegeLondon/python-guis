@@ -153,9 +153,9 @@ The MWE for the three frameworks will have the following elements:
 - A non-editable text area showing a text after clicking the button.
 - A top container/main window holding the above two side by side.
 
-We will ignore anything related to aesthetics or customisation of the look and feel, although that is often a big part of the creation of the GUI. The reason is that the three frameworks differ massively in how to do this, so it is best to focus in what they have in common and let the one interested to explore on their own how to make the MWE look nicer. 
+We will ignore anything related to aesthetics or customisation of the look and feel, although that is often a big part of the creation of the GUI. The reason is that the three frameworks differ massively in how to do this, so it is best to focus in how to achieve the same functionality, fore now, and let the one interested to explore on their own how to make the MWE look nicer. 
 
-*Jupyter Widgets* (Needs to be run within a Jupyter notebook)
+- **Jupyter Widgets** (Needs to be run within a Jupyter notebook)
 ```python
 import ipywidgets as widgets
 from IPython.display import display
@@ -172,7 +172,10 @@ button.on_click(lambda *args: callback(label))
 display(hbox)
 ```
 
-*Tkinter* (might cause the kernel to fail on exit if run within a Jupyter notebook)
+- **Tkinter** (might cause the kernel to fail on exit if run within a Jupyter notebook)
+
+    - [The obligatory first program](https://tkdocs.com/tutorial/install.html#helloworld)
+    
 ```python
 import tkinter as tk
 from tkinter import ttk
@@ -193,7 +196,10 @@ button.configure(command=lambda *args: callback(label))
 root.mainloop()
 ```
 
-*Kivy* (might cause the kernel to fail on exit if run within a Jupyter notebook)
+- **Kivy** (might cause the kernel to fail on exit if run within a Jupyter notebook)
+
+    - [Creating a basic Kivy application](https://kivy.org/doc/stable/guide/basic.html#create-an-application)
+    
 ```python
 from kivy.config import Config
 # We don't want a fullscreen App here.
