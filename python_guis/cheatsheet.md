@@ -162,13 +162,19 @@ from IPython.display import display
 
 def callback(l):
     l.value = "Hello Pythoners!"
-    
+
+# Create the widgets.
 button = widgets.Button(description='Click me')
 label = widgets.Label(value='')
-hbox = widgets.HBox(children=[button, label])
-    
+hbox = widgets.HBox()
+
+# Add them to a container. This includes setting their physical arrangement. 
+hbox.children=[button, label]
+
+# Add the callback of the button.
 button.on_click(lambda *args: callback(label))
 
+# Display the top container.
 display(hbox)
 ```
 
@@ -182,14 +188,17 @@ from tkinter import ttk
 
 def callback(l):
     l["text"] = "Hello Pythoners!"
-    
+
+# Create the widgets. This includes adding them to a container.
 root = tk.Tk()
 button = ttk.Button(master=root, text='Click me')
 label = ttk.Label(master=root, text='')
 
+# Create their physical arrangement.
 button.pack(side=tk.LEFT)
 label.pack(side=tk.LEFT)
-    
+
+# Add the callback of the button.
 button.configure(command=lambda *args: callback(label))
 
 # Run the main window loop, which starts the program.
@@ -213,17 +222,20 @@ from kivy.uix.boxlayout import BoxLayout
 def callback(l):
     l.text = "Hello Pythoners!"
     
-# Create main application, as a subclass of App.
+# Create main application.
 class HelloApp(App):
     def build(self):
         
+        # Create the widgets.
         hbox = BoxLayout()
         button = Button(text='Click me')
         label = Label(text='')
         
+        # Add them to a container. This includes setting their physical arrangement. 
         hbox.add_widget(button)
         hbox.add_widget(label)
         
+        # Add the callback of the button.
         button.bind(on_press=lambda *args: callback(label))
         
         # Return the top container
