@@ -144,3 +144,85 @@ book.add_widget(hbox1)
 book.add_widget(hbox2)
 book.add_widget(hbox3)
 ```
+
+## A minimum working example
+
+The MWE for the three frameworks will have the following elements:
+
+- A button saying "Click me!"
+- A non-editable text area showing a text after clicking the button.
+- A top container/main window holding the above two side by side.
+
+We will ignore anything related to aesthetics or customisation of the look and feel, although that is often a big part of the creation of the GUI. The reason is that the three frameworks differ massively in how to do this, so it is best to focus in what they have in common and let the one interested to explore on their own how to make the MWE look nicer. 
+
+*Jupyter Widgets* (Needs to be run within a Jupyter notebook)
+```python
+import ipywidgets as widgets
+from IPython.display import display
+
+def callback(l):
+    l.value = "Hello Pythoners!"
+    
+button = widgets.Button(description='Click me')
+label = widgets.Label(value='')
+hbox = widgets.HBox(children=[button, label])
+    
+button.on_click(lambda *args: callback(label))
+
+display(hbox)
+```
+
+*Tkinter* (might cause the kernel to fail on exit if run within a Jupyter notebook)
+```python
+import tkinter as tk
+from tkinter import ttk
+
+def callback(l):
+    l["text"] = "Hello Pythoners!"
+    
+root = tk.Tk()
+button = ttk.Button(master=root, text='Click me')
+label = ttk.Label(master=root, text='')
+
+button.pack(side=tk.LEFT)
+label.pack(side=tk.LEFT)
+    
+button.configure(command=lambda *args: callback(label))
+
+# Run the main window loop, which starts the program.
+root.mainloop()
+```
+
+*Kivy* (might cause the kernel to fail on exit if run within a Jupyter notebook)
+```python
+from kivy.config import Config
+# We don't want a fullscreen App here.
+Config.set('graphics', 'fullscreen', '0')
+
+from kivy.app import App
+from kivy.uix.button import Button
+from kivy.uix.label import Label
+from kivy.uix.boxlayout import BoxLayout
+
+def callback(l):
+    l.text = "Hello Pythoners!"
+    
+# Create main application, as a subclass of App.
+class HelloApp(App):
+    def build(self):
+        
+        hbox = BoxLayout()
+        button = Button(text='Click me')
+        label = Label(text='')
+        
+        hbox.add_widget(button)
+        hbox.add_widget(label)
+        
+        button.bind(on_press=lambda *args: callback(label))
+        
+        # Return the top container
+        return hbox
+
+# Run the main windoow loop, which starts the program.
+HelloApp().run()
+```
