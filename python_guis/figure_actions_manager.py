@@ -406,32 +406,6 @@ def get_mouse_location(x, y, xmin, xmax, ymin, ymax, fraction):
     return location
 
 
-def circle(
-    points: np.ndarray, resolution=360, points_per_contour=2, **kwargs
-) -> Optional[np.ndarray]:
-    """Calculates the points of the perimeter of a circle."""
-    if points.shape[1] == 1 or points.shape[0] % points_per_circle == 1:
-        return
-
-    radius = np.linalg.norm(points[-2] - points[-1])
-    circle = CirclePolygon(points[-2], radius, resolution=resolution)
-    verts = circle.get_path().vertices
-    trans = circle.get_patch_transform()
-
-    return trans.transform(verts).T
-
-
-def simple_closed_contour(
-    points: np.ndarray, points_per_contour=6, **kwargs
-) -> Optional[np.ndarray]:
-    """Adds the first point to the end of the list and returns the resulting array."""
-    if points.shape[1] == 1 or points.shape[0] % points_per_contour != 0:
-        return
-
-    data = np.vstack(points[-points_per_contour:], points[-points_per_contour])
-    return data.T
-
-
 def spline(
     points: np.ndarray, points_per_contour=6, resolution=360, order=3, **kwargs
 ) -> Optional[np.ndarray]:
