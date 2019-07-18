@@ -225,8 +225,8 @@ We will ignore anything related to aesthetics or customisation of the look and f
 import ipywidgets as widgets
 from IPython.display import display
 
-def on_button_clicked(l):
-    l.value = "Hello Pythoners!"
+def on_button_clicked(button):
+    label.value = "Hello Pythoners!"
 
 # Create the widgets.
 button = widgets.Button(description="Click me")
@@ -237,7 +237,7 @@ hbox = widgets.HBox()
 hbox.children=[button, label]
 
 # Add the callback of the button.
-button.on_click(lambda b: on_button_clicked(label))
+button.on_click(on_button_clicked)
 
 # Display the top container.
 display(hbox)
