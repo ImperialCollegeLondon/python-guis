@@ -8,9 +8,10 @@ from skimage.segmentation import active_contour
 
 
 def add_node(event, nodes, canvas):
-    nodes.append((event.xdata, event.ydata))
-    event.inaxes.plot([event.xdata], [event.ydata], marker="o", color="r")
-    canvas.draw()
+    if event.inaxes is not None:
+        nodes.append((event.xdata, event.ydata))
+        event.inaxes.plot([event.xdata], [event.ydata], marker="o", color="r")
+        canvas.draw()
 
 
 def spline(nodes: np.ndarray, resolution=360, degree=3) -> np.ndarray:
@@ -20,10 +21,23 @@ def spline(nodes: np.ndarray, resolution=360, degree=3) -> np.ndarray:
     return np.array(interpolate.splev(np.linspace(0, 1, resolution), tck)).T
 
 
-def segment_one_image(image, nodes, sigma=1, resolution=360, degree=3, **kwargs):
+def segment_one_image(
+    image,
+    nodes,
+    sigma=1,
+    resolution=360,
+    degree=3,
+    alpha=0.01,
+    beta=1,
+    gamma=0.01,
+    **kwargs
+):
     initial = spline(np.array(nodes), resolution=resolution, degree=degree)
     fimg = gaussian(image, sigma=sigma)
-    return active_contour(fimg, initial, **kwargs)
+    contour = active_contour(
+        fimg, initial, alpha=alpha, beta=beta, gamma=gamma, **kwargs
+    )
+    return contour, initial
 
 
 if __name__ == "__main__":
@@ -31,7 +45,7 @@ if __name__ == "__main__":
     from skimage.io import imread
 
     # First we load the image and transform it to greyscale
-    img = imread("beetles.jpg", as_gray=True)
+    img = imread("beetles_lite.jpg", as_gray=True)
 
     # Variable to accumulate the nodes
     nodes: List = []
@@ -43,16 +57,18 @@ if __name__ == "__main__":
     )
     ax = fig.add_subplot()
     ax.imshow(img, cmap=plt.get_cmap("binary_r"))
+    ax.set_title("Left click to add a control node\n" "Close image to continue.")
     plt.show()
 
     # Create the spline, filter the image and run the segmentation
-    silhouette = segment_one_image(img, nodes)
+    segment, initial = segment_one_image(img, nodes)
 
     # Finally, we plot the result
     fig = plt.figure()
     ax = fig.add_subplot()
     ax.imshow(img, cmap=plt.get_cmap("binary_r"))
-    ax.plot(*silhouette.T)
+    ax.plot(*segment.T, label="Initial")
+    ax.plot(*initial.T, label="Segmented")
     plt.show()
 
     # And potentially save the data
