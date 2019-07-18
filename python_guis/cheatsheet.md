@@ -66,6 +66,15 @@ conda install kivy -c conda-forge
 
 Extra tools are needed in order to run Kivy examples in Android or IOS. 
 
+Many addons are distributed as part of [Kivy Garden](https://kivy-garden.github.io), developed and mantained by the community. One of them is the Kivy backend for Matplotlib, which we will use below. 
+
+There are different instructions depending on the *vintage* of the *flower*, as Kivy Garden addons are called. In particular, to install the Matplotlib backend, first install the [legacy kivy-garden](https://kivy.org/doc/stable/api-kivy.garden.html#legacy-garden-tool-instructions) tool with pip and then use that tool to install the backend:
+
+```bash
+pip install kivy-garden
+garden install matplotlib
+```
+
 ## Pre-requisites
 
 The following import statements need to be called before importing the widgets below:
@@ -313,3 +322,160 @@ if __name__ == "__main__":
 ```
 
 Note: Running Tkinter or Kivy within a Jupyter notebook might cause the kernel to fail on exit. Better to run them as normal Python scripts.
+
+## Plotting
+
+Plots are common elements in most research software. None of the above frameworks have any widget related to plots, but all of them have support to incorporating figures created with Matploltib,  the most common (although not the only one) plotting library in Python. 
+
+- **Jupyter Widgets**
+
+The creation of the figure and data plotting has to be done within an [Output widget](https://ipywidgets.readthedocs.io/en/stable/examples/Output%20Widget.html) context manager. Indeed, output widgets can be used to display pretty much anything, from standard output, to errors, videos, figures, etc. The Output widget has to be arranged within a container as with any other widget.
+
+If the plot is to be interactive, then the directive `%matplotlib notebook` has to be used before importing Matplotlib. Otherwise, `%matplotlib inline` is enough, displaying the figure as an image.
+
+The following example displays a label and a plot side by side. We connect an event to the figure canvas to draw points when we click on the plot.
+
+```python
+% matplotlib notebook
+import ipywidgets as widgets
+from IPython.display import display
+
+import matplotlib.pyplot as plt
+import numpy as np
+
+
+def on_canvas_click(event):
+    if event.inaxes:
+        event.inaxes.plot([event.xdata], [event.ydata], marker="o", color="r")
+        event.canvas.draw()
+
+
+data = np.random.random((10, 10))
+
+# Create the widgets and display the top container.
+label = widgets.Label(value="Click on the plot as many times as you want!")
+out1 = widgets.Output()
+hbox = widgets.HBox(children=[label, out1])
+display(hbox)
+
+# Define what should be shown in the Output widget
+with out1:
+    fig, axes = plt.subplots()
+    axes.imshow(data)
+    fig.canvas.mpl_connect("button_press_event", on_canvas_click)
+    fig.canvas.draw()
+```
+
+- **Tkinter**
+
+Matplotlib has builtin support for Tkinter, providing a backend that replaces the default figure canvas by a Tkinter canvas. The Tkinter version of the navigation toolbar can also be added to the GUI.
+
+The following example is the Tkinter version of the above:
+
+```python
+import tkinter as tk
+import tkinter.ttk as ttk
+
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2Tk
+from matplotlib.figure import Figure
+import numpy as np
+
+
+def on_canvas_click(event):
+    if event.inaxes:
+        event.inaxes.plot([event.xdata], [event.ydata], marker="o", color="r")
+        event.canvas.draw()
+
+
+data = np.random.random((10, 10))
+
+# Create the widgets.
+root = tk.Tk()
+ttk.Label(root, text="Click on the plot as many times as you want!").pack(side=tk.LEFT)
+
+# Create the figure.
+fig = Figure()
+axes = fig.add_subplot()
+axes.imshow(data)
+
+# And use the Tkinter version of the canvas and the toolbar.
+# Both need to be packed (or grid) as with any other widget.
+canvas = FigureCanvasTkAgg(fig, master=root)
+canvas.get_tk_widget().pack(side=tk.LEFT)
+canvas.mpl_connect("button_press_event", on_canvas_click)
+canvas.draw()
+
+toolbar = NavigationToolbar2Tk(canvas, root)
+canvas.get_tk_widget().pack(side=tk.TOP)
+toolbar.update()
+
+# Run the main window loop, which starts the program.
+root.mainloop()
+```
+
+- **Kivy**
+
+Kivy works very similar to Tkinter, but in this case the backend is provided as part of the community-contributed Kivy Garden packages, as discussed [above](#installation). You will notice that this backend has built-in the capability of drawing (and dragging) red points on the plot. Try using the right click!
+
+The interactive plot example using Kivy will look like this:
+
+```python
+from kivy.garden.matplotlib.backend_kivyagg import (
+    FigureCanvasKivyAgg,
+    NavigationToolbar2Kivy,
+)
+from kivy.app import App
+from kivy.uix.label import Label
+from kivy.uix.boxlayout import BoxLayout
+
+from matplotlib.figure import Figure
+import numpy as np
+
+
+def on_canvas_click(event):
+    if event.inaxes:
+        event.inaxes.plot([event.xdata], [event.ydata], marker="o", color="r")
+        event.canvas.draw()
+
+
+# Create main application.
+class HelloApp(App):
+    def build(self):
+        data = np.random.random((10, 10))
+
+        # Create the widgets. We need a vertical box to arrange the navigation toolbar
+        hbox = BoxLayout()
+        vbox = BoxLayout(orientation="vertical")
+        label = Label(text="Click on the plot as many times as you want!")
+
+        # Create the figure.
+        fig = Figure()
+        axes = fig.add_subplot()
+        axes.imshow(data)
+        canvas = FigureCanvasKivyAgg(fig)
+        nav = NavigationToolbar2Kivy(canvas)
+
+        # Add them to a container.
+        vbox.add_widget(canvas)
+        vbox.add_widget(nav.actionbar)
+        hbox.add_widget(label)
+        hbox.add_widget(vbox)
+
+        # Add the callback of the canvas.
+        canvas.mpl_connect("button_press_event", on_canvas_click)
+        canvas.draw()
+
+        # Return the top container. This can be any widget
+        return hbox
+
+
+# Run the main windoow loop, which starts the program.
+if __name__ == "__main__":
+    from kivy.config import Config
+
+    # We don't want a fullscreen App here.
+    Config.set("graphics", "fullscreen", "0")
+
+    HelloApp().run()
+
+```
