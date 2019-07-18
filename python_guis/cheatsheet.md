@@ -22,14 +22,79 @@ The main sources of information and reference for each of the frameworks are:
     - [API Reference](https://kivy.org/doc/stable/api-kivy.html)
     - [Wiki](https://github.com/kivy/kivy/wiki)
 
+## Installation
+
+- *Jupyter Widgets*:
+
+Jupyter Widgets requires Jupyter, of course, and the `ipywidgets` package, and to enable the widget extension in Jupyter. Assuming you already have Jupyter installed, [installing the widgets](https://ipywidgets.readthedocs.io/en/stable/user_install.html) should be straight forward either with pip or conda:
+
+
+```bash
+pip install ipywidgets
+jupyter nbextension enable --py widgetsnbextension
+```
+
+or 
+
+```bash
+conda install -c conda-forge ipywidgets
+```
+
+The conda command automatically enables the extension.
+
+- *Tkinter*:
+
+[Tkinter is part of the standard Python library](https://docs.python.org/3/library/tk.html) so chances are that nothing else needs to be done in order to use it. However, in some Linux distributions it is provided as a separate package. For example, in Ubuntu you will need to run:
+
+```bash
+sudo apt install python3-tk
+```
+
+- *Kivy*:
+
+Kivy webpage offers [very detailed instructions](https://kivy.org/#download) for its installation on the main OS. There are precompiled wheels that can be installed using pip, in addition to optional dependencies:
+
+```bash
+pip install kivy
+```
+
+Kivy can also be installed using conda with:
+
+```bash
+conda install kivy -c conda-forge
+```
+
+Extra tools are needed in order to run Kivy examples in Android or IOS. 
 
 ## Pre-requisites
 
 The following import statements need to be called before importing the widgets below:
 
-| *Jupyter* | *Tkinter* | *Kivy* |
-|:---------:|:---------:|:------:|
-| `import ipywidgets as widgets`  | `from tkinter import ttk`<br>or for some widgets:<br>`import tkinter as tk`| Each widget lives in its own submodule of:<br>`from kivy import uix`|
+- *Jupyter Widgets*:
+
+```python
+import ipywidgets as widgets
+```
+
+- *Tkinter*:
+
+```python
+from tkinter import ttk
+```
+
+and for some older widgets:
+
+```python
+import tkinter as tk
+```
+    
+- *Kivy*:
+
+Each widget lives in its own submodule of `uix`:
+
+```python
+from kivy import uix
+```
 
 ## Common widgets
 
@@ -145,7 +210,7 @@ book.add_widget(hbox2)
 book.add_widget(hbox3)
 ```
 
-## A minimum working example
+## A minimum working example (MWE)
 
 The MWE for the three frameworks will have the following elements:
 
@@ -153,18 +218,18 @@ The MWE for the three frameworks will have the following elements:
 - A non-editable text area showing a text after clicking the button.
 - A top container/main window holding the above two side by side.
 
-We will ignore anything related to aesthetics or customisation of the look and feel, although that is often a big part of the creation of the GUI. The reason is that the three frameworks differ massively in how to do this, so it is best to focus in how to achieve the same functionality, fore now, and let the one interested to explore on their own how to make the MWE look nicer. 
+We will ignore anything related to aesthetics or customisation of the look and feel, although that is often a big part of the creation of the GUI. The reason is that the three frameworks differ massively in how to do this, so it is best to focus in how to achieve the same functionality, for now, and let the one interested to explore on their own how to make the MWE look nicer. 
 
 - **Jupyter Widgets** (Needs to be run within a Jupyter notebook)
 ```python
 import ipywidgets as widgets
 from IPython.display import display
 
-def callback(l):
+def on_button_clicked(l):
     l.value = "Hello Pythoners!"
 
 # Create the widgets.
-button = widgets.Button(description='Click me')
+button = widgets.Button(description="Click me")
 label = widgets.Label(value='')
 hbox = widgets.HBox()
 
@@ -172,13 +237,13 @@ hbox = widgets.HBox()
 hbox.children=[button, label]
 
 # Add the callback of the button.
-button.on_click(lambda *args: callback(label))
+button.on_click(lambda b: on_button_clicked(label))
 
 # Display the top container.
 display(hbox)
 ```
 
-- **Tkinter** (might cause the kernel to fail on exit if run within a Jupyter notebook)
+- **Tkinter**
 
     - [The obligatory first program](https://tkdocs.com/tutorial/install.html#helloworld)
     
@@ -186,41 +251,37 @@ display(hbox)
 import tkinter as tk
 from tkinter import ttk
 
-def callback(l):
-    l["text"] = "Hello Pythoners!"
+def on_button_clicked():
+    label["text"] = "Hello Pythoners!"
 
 # Create the widgets. This includes adding them to a container.
 root = tk.Tk()
-button = ttk.Button(master=root, text='Click me')
-label = ttk.Label(master=root, text='')
+button = ttk.Button(master=root, text="Click me")
+label = ttk.Label(master=root, text="")
 
 # Create their physical arrangement.
 button.pack(side=tk.LEFT)
 label.pack(side=tk.LEFT)
 
 # Add the callback of the button.
-button.configure(command=lambda *args: callback(label))
+button.configure(command=on_button_clicked)
 
 # Run the main window loop, which starts the program.
 root.mainloop()
 ```
 
-- **Kivy** (might cause the kernel to fail on exit if run within a Jupyter notebook)
+- **Kivy**
 
     - [Creating a basic Kivy application](https://kivy.org/doc/stable/guide/basic.html#create-an-application)
     
 ```python
-from kivy.config import Config
-# We don't want a fullscreen App here.
-Config.set('graphics', 'fullscreen', '0')
-
 from kivy.app import App
 from kivy.uix.button import Button
 from kivy.uix.label import Label
 from kivy.uix.boxlayout import BoxLayout
 
-def callback(l):
-    l.text = "Hello Pythoners!"
+def on_button_clicked(label):
+    label.text = "Hello Pythoners!"
     
 # Create main application.
 class HelloApp(App):
@@ -228,19 +289,27 @@ class HelloApp(App):
         
         # Create the widgets.
         hbox = BoxLayout()
-        button = Button(text='Click me')
-        label = Label(text='')
+        button = Button(text="Click me")
+        label = Label(text="")
         
         # Add them to a container. This includes setting their physical arrangement. 
         hbox.add_widget(button)
         hbox.add_widget(label)
         
         # Add the callback of the button.
-        button.bind(on_press=lambda *args: callback(label))
+        button.bind(on_press=lambda button: on_button_clicked(label))
         
-        # Return the top container
+        # Return the top container. This can be any widget
         return hbox
 
 # Run the main windoow loop, which starts the program.
-HelloApp().run()
+if __name__ == "__main__":
+    
+    from kivy.config import Config
+    # We don't want a fullscreen App here.
+    Config.set("graphics", "fullscreen", "0")
+
+    HelloApp().run()
 ```
+
+Note: Running Tkinter or Kivy within a Jupyter notebook might cause the kernel to fail on exit. Better to run them as normal Python scripts.
