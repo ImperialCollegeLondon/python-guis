@@ -10,6 +10,9 @@ readme = "README.md"
 repository = "https://github.com/ImperialCollegeLondon/python-guis"
 [tool.poetry.dependencies]
 python = "^3.7"
+kivy = {version = "^1.11",optional = true}
+[tool.poetry.extra]
+kivy = ["kivy"]
 [tool.black]
 exclude = '\.venv/|\.eggs/'
 [tool.isort]

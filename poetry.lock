@@ -1,7 +1,46 @@
-package = []
+[[package]]
+category = "main"
+description = "Docutils -- Python Documentation Utilities"
+name = "docutils"
+optional = true
+python-versions = "*"
+version = "0.15"
+
+[[package]]
+category = "main"
+description = "A software library for rapid development of hardware-accelerated multitouch applications."
+name = "kivy"
+optional = true
+python-versions = "*"
+version = "1.11.1"
+
+[package.dependencies]
+Kivy-Garden = ">=0.1.4"
+docutils = "*"
+pygments = "*"
+
+[[package]]
+category = "main"
+description = "Garden tool for kivy flowers."
+name = "kivy-garden"
+optional = true
+python-versions = "*"
+version = "0.1.4"
+
+[[package]]
+category = "main"
+description = "Pygments is a syntax highlighting package written in Python."
+name = "pygments"
+optional = true
+python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*"
+version = "2.4.2"
 
 [metadata]
-content-hash = "1cecdb5c4f27a43e0bfaed3c063b275782ac693a803e2b2ecd482fcb6a737d5e"
+content-hash = "c8c283d2fe834c4cc3c6f7b8f18861accd782ab400bce3bd24c74f721c6ca0c7"
 python-versions = "^3.7"
 
 [metadata.hashes]
+docutils = ["54a349c622ff31c91cbec43b0b512f113b5b24daf00e2ea530bb1bd9aac14849", "ba4584f9107571ced0d2c7f56a5499c696215ba90797849c92d395979da68521", "d2ddba74835cb090a1b627d3de4e7835c628d07ee461f7b4480f51af2fe4d448"]
+kivy = ["090d3ded9835a17477cd93fbdaf0a7c42ff2218981cf198ded5ad8795bc74391", "11e85eaf6efbfa2362a3334ffdad179a1b0ca8d255cca79eaa6a2765560d4982", "1a1ff32f8a95f1e175198cbab81fcd2596783b180d4eafe63e87d171aa7fdb5e", "1d28b198a64c30db8d94a0488e85f3037af60d514ab0d7ad5ab45add3ab77090", "4a5480cbf837d3780c77a4f61b32b56d22ae9f03845e7a89dd3eaef1ae5fd037", "4d0e596f74271e901b551f77661dde238df4765484fce9f5d1c72e8022984e84", "5c3d0f2749522d62e9cce09cd54b2d823bf1b6b644ff1f627be49de6f3e3cba0", "815a5c0b3b72fcd81ca7b2aa0744087163ed03e4cf9ab4e7c9733cea99fc1571", "8819a27a09871af451760cb69486ced52e830c8a0a37480f22ef5e692f12c05b", "a687602d90c4629dd036f577ca39acb76ba581370f9d915f3cab99be818ba8ad", "b7ef6aad43a86d8df3fb865db864e354f2155a748019f8517f69f65c1a29cb64", "b85ccf165050cbf2ee8447671eebbc222b369b40f0e0038dd9547d49a5e37373", "c36652caa7f6c327dee834cfc699d5962d346b7a53e54bd81abc17c314226d89", "ece170514db3f49844a41e4c910ad9ce9bc46da6f47a49158e11266bdcc6e479", "f3bea6e4a21991827885d04127fc6d09a0e974ecfa12da7bf5faae93562ea102", "f835462dd9aa491272552ef079b948a088598e2e95d68bb1d885d2c3f3d4e2c3"]
+kivy-garden = ["9b7d9de5efacbcd0c4b3dd873b30622a86093c9965aa47b523c7a32f3eb34610", "c256f42788421273a08fbb0a228f0fb0e80dd86b629fb8c0920507f645be6c72"]
+pygments = ["71e430bc85c88a430f000ac1d9b331d2407f681d6f6aec95e8bcfbc3df5b0127", "881c4c157e45f30af185c1ffe8d549d48ac9127433f2c380c24b84572ad66297"]
