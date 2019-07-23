@@ -1,11 +1,7 @@
-import os
 import tkinter as tk
-import tkinter.filedialog
-from collections import OrderedDict
 from tkinter import ttk
 
 import matplotlib.pyplot as plt
-import numpy as np
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
 
@@ -101,7 +97,7 @@ class BeetlePicker(tk.Tk):
             mainframe,
             text="Perform segmentation",
             command=self.perform_segmentation,
-            state="disabled",
+            state=tk.DISABLED,
         )
         self.segment_button.grid(row=6, columnspan=2, sticky=tk.NSEW, padx=5, pady=5)
 
@@ -110,7 +106,7 @@ class BeetlePicker(tk.Tk):
             mainframe,
             text="Remove all",
             command=self.remove_all_segmentations,
-            state="disabled",
+            state=tk.DISABLED,
         )
         self.remove_all_segments_button.grid(
             row=7, columnspan=2, sticky=(tk.S, tk.W, tk.E), padx=5, pady=5
@@ -119,14 +115,14 @@ class BeetlePicker(tk.Tk):
     def remove_all_segmentations(self):
         """Removes all segmentations from memory."""
         self.nodes = []
-        self.remove_all_segments_button["state"] = "disable"
+        self.remove_all_segments_button.configure(state=tk.DISABLED)
         self.redraw()
 
     def add_node(self, event):
         """Adds a node to the plot."""
         add_node(event, self.nodes, self.fig.canvas)
         if len(self.nodes) >= 3:
-            self.segment_button["state"] = "enable"
+            self.segment_button.configure(state=tk.NORMAL)
 
     def redraw(self, segment=None, initial=None):
         """Redraws the axes after making a changes to the data."""
@@ -144,7 +140,8 @@ class BeetlePicker(tk.Tk):
         if segment is not None:
             self.axes.plot(*segment.T, label="Segmented")
 
-        self.axes.legend()
+        if segment is not None or initial is not None:
+            self.axes.legend()
 
         self.fig.canvas.draw()
 
@@ -159,14 +156,14 @@ class BeetlePicker(tk.Tk):
         )
 
         self.nodes = []
-        self.remove_all_segments_button["state"] = "enable"
-        self.segment_button["state"] = "disabled"
+        self.remove_all_segments_button.configure(state=tk.NORMAL)
+        self.segment_button.configure(state=tk.DISABLED)
 
         self.redraw(segment, initial)
 
     def read_image(self, *args):
-        """Opens a filedialog to choose the image to segment."""
-        self.image = imread("beetles_lite.jpg", as_gray=True)
+        """Opens the image to segment."""
+        self.image = imread("insects.jpg", as_gray=True)
         self.redraw()
         self.fig.canvas.mpl_connect("button_release_event", self.add_node)
 

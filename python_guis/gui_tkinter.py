@@ -132,7 +132,7 @@ class BeetlePicker(tk.Tk):
             mainframe,
             text="Perform segmentation",
             command=self.perform_segmentation,
-            state="disabled",
+            state=tk.DISABLED,
         )
         self.segment_button.grid(row=40, columnspan=2, sticky=tk.NSEW, padx=5, pady=5)
         ttk.Label(mainframe, text="Beetle ID:").grid(
@@ -150,14 +150,14 @@ class BeetlePicker(tk.Tk):
             mainframe,
             text="Last point",
             command=self.remove_last_point,
-            state="disabled",
+            state=tk.DISABLED,
         )
         self.remove_point_button.grid(row=47, sticky=(tk.S, tk.W, tk.E), padx=5, pady=5)
         self.remove_segment_button = ttk.Button(
             mainframe,
             text="Last segment",
             command=self.remove_last_segmentation,
-            state="disabled",
+            state=tk.DISABLED,
         )
         self.remove_segment_button.grid(
             row=48, sticky=(tk.S, tk.W, tk.E), padx=5, pady=5
@@ -166,7 +166,7 @@ class BeetlePicker(tk.Tk):
             mainframe,
             text="Remove all",
             command=self.remove_all_segmentations,
-            state="disabled",
+            state=tk.DISABLED,
         )
         self.remove_all_segments_button.grid(
             row=49, sticky=(tk.S, tk.W, tk.E), padx=5, pady=5
@@ -183,7 +183,7 @@ class BeetlePicker(tk.Tk):
             mainframe,
             text="Save segmentations",
             command=self.save_segmentations,
-            state="disabled",
+            state=tk.DISABLED,
         )
         self.save_segments_button.grid(
             row=91, columnspan=2, sticky=(tk.S, tk.W, tk.E), padx=5, pady=5
@@ -193,10 +193,10 @@ class BeetlePicker(tk.Tk):
         """Removes all segmentations from memory."""
         self.segments = OrderedDict()
         self.nodes = []
-        self.remove_point_button["state"] = "disable"
-        self.remove_segment_button["state"] = "disable"
-        self.remove_all_segments_button["state"] = "disable"
-        self.save_segments_button["state"] = "disable"
+        self.remove_point_button["state"] = tk.DISABLED
+        self.remove_segment_button["state"] = tk.DISABLED
+        self.remove_all_segments_button["state"] = tk.DISABLED
+        self.save_segments_button["state"] = tk.DISABLED
         self.available_segmentations.delete("1.0", tk.END)
         self.redraw()
 
@@ -206,9 +206,9 @@ class BeetlePicker(tk.Tk):
         self.redraw()
 
         if len(self.segments) == 0:
-            self.remove_segment_button["state"] = "disable"
-            self.remove_all_segments_button["state"] = "disable"
-            self.save_segments_button["state"] = "disable"
+            self.remove_segment_button["state"] = tk.DISABLED
+            self.remove_all_segments_button["state"] = tk.DISABLED
+            self.save_segments_button["state"] = tk.DISABLED
 
     def remove_last_point(self):
         """Removes last node drawn."""
@@ -223,9 +223,9 @@ class BeetlePicker(tk.Tk):
         """Adds a node to the plot."""
         add_node(event, self.nodes, self.fig.canvas)
         if len(self.nodes) > 0:
-            self.remove_point_button["state"] = "enable"
+            self.remove_point_button["state"] = tk.NORMAL
         if len(self.nodes) >= 3:
-            self.segment_button["state"] = "enable"
+            self.segment_button["state"] = tk.NORMAL
 
     def add_segmentation_to_list(self, name, data, idx=0):
         """Adds a new segmentation to the list."""
@@ -281,11 +281,11 @@ class BeetlePicker(tk.Tk):
         self.nodes = []
         self.add_segmentation_to_list(name, segment)
 
-        self.remove_point_button["state"] = "disable"
-        self.remove_segment_button["state"] = "enable"
-        self.remove_all_segments_button["state"] = "enable"
-        self.save_segments_button["state"] = "enable"
-        self.segment_button["state"] = "disabled"
+        self.remove_point_button["state"] = tk.DISABLED
+        self.remove_segment_button["state"] = tk.NORMAL
+        self.remove_all_segments_button["state"] = tk.NORMAL
+        self.save_segments_button["state"] = tk.NORMAL
+        self.segment_button["state"] = tk.DISABLED
 
         self.redraw()
 

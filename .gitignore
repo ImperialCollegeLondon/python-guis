@@ -105,3 +105,7 @@ venv.bak/
 
 # HTML code
 *.html
+
+# Test results
+junit/
+*.xml
