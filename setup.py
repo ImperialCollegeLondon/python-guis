@@ -7,5 +7,6 @@ setup(
     author="Research Computing Service, Imperial College London",
     author_email="rcs-support@imperial.ac.uk",
     setup_requires=["pytest-runner"],
+    install_requires=["kivy"],
     tests_require=["pytest-cov", "pytest-flake8", "pytest-mypy"],
 )
