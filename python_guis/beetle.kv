@@ -1,0 +1,145 @@
+#:import chain itertools.chain
+
+<MainWindow>:
+    orientation: "horizontal"
+    padding: 5
+    spacing: 5
+
+    ControlField:
+        id: control_field
+        size_hint: (.35, 1)
+
+    PlayField:
+        id: play_field
+        size_hint: (0.65, 1)
+
+<PlayField>:
+    canvas:
+        Color:
+            rgba: 0.9, 0.9, 0.88, 1
+
+        Rectangle:
+            size: self.size
+            pos: self.pos
+
+    canvas.after:
+        Color:
+            rgba: 0, 0, 0.5, 0.5
+
+        Line:
+            points: root.parent.control_points
+            close: True
+            width: 3
+
+        Point:
+            points: list(chain(*root.parent.control_points))
+            pointsize: 10
+
+    Image:
+        id: image
+        size_hint: 0.96, 0.96
+        pos_hint: {'x': 0.02, 'y': 0.02}
+        source: self.parent.image
+
+
+<DegreeButton@ToggleButton>:
+    size_hint: (0.7 / 3, None)
+    height: 30
+    group: "degree"
+    text: "1"
+    state: "down" if self.parent.degree == int(self.text) else "normal"
+    allow_no_selection: False
+    on_press: self.parent.degree = int(self.text)
+
+<ControlField>:
+    orientation: "lr-tb"
+    spacing: 5
+    padding: 5
+    canvas:
+        Color:
+            rgba: 0.1, 0.1, 0.12, 1
+
+        Rectangle:
+            size: self.size
+            pos: self.pos
+
+    Label:
+        text_size: self.width, None
+        size: self.texture_size
+        size_hint: (1, None)
+        halign: "left"
+        text: "Gaussian filter width:"
+
+    Label:
+        text_size: 30, 60
+        size: self.texture_size
+        size_hint: (0.1, None)
+        halign: "center"
+        valign: "middle"
+        text: str(gaussian_width.value)
+
+    Slider:
+        id: gaussian_width
+        size_hint: (0.9, None)
+        height: 60
+        min: 1
+        max: 10
+        step: 1
+        value: 5
+        value_track: True
+        value_track_color: 1, 0, 0, 1
+        
+    Label:
+        text_size: self.width, None
+        size: self.texture_size
+        size_hint: (1, None)
+        halign: "left"
+        text: "Spline parameters:"
+
+    Label:
+        text_size: self.width, None
+        size: self.texture_size[1], 30
+        size_hint: (0.30, None)
+        halign: "left"
+        valign: "middle"
+        text: "Degree:"
+
+    DegreeButton:
+        text: "1"
+
+    DegreeButton:
+        text: "2"
+
+    DegreeButton:
+        text: "3"
+
+    Label:
+        text_size: self.width, None
+        size: self.texture_size[1], 30
+        size_hint: (0.40, None)
+        halign: "left"
+        valign: "middle"
+        text: "Resolution:"
+
+    TextInput:
+        size_hint: (0.60, None)
+        height: 30
+        halign: "left"
+        valign: "middle"
+        text: str(root.resolution)
+        multiline: False
+        on_text: root.on_resolution_change(self)
+
+    Button:
+        height: 30
+        size_hint: (1, None)
+        text: "Perform segmentation"
+        disabled: len(root.parent.control_points) <= 2
+        on_press: root.parent.on_segment()
+
+    Button:
+        height: 30
+        size_hint: (1, None)
+        text: "Remove all"
+        disabled: len(root.parent.control_points) == 0
+        on_press: root.parent.control_points = []

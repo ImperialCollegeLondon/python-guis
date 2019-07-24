@@ -1,10 +1,21 @@
 [[package]]
 category = "main"
+description = "Composable style cycles"
+name = "cycler"
+optional = false
+python-versions = "*"
+version = "0.10.0"
+
+[package.dependencies]
+six = "*"
+
+[[package]]
+category = "main"
 description = "Docutils -- Python Documentation Utilities"
 name = "docutils"
 optional = true
-python-versions = "*"
-version = "0.15"
+python-versions = ">=2.6, !=3.0.*, !=3.1.*, !=3.2.*"
+version = "0.15.1"
 
 [[package]]
 category = "main"
@@ -29,18 +40,89 @@ version = "0.1.4"
 
 [[package]]
 category = "main"
+description = "A fast implementation of the Cassowary constraint solver"
+name = "kiwisolver"
+optional = false
+python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
+version = "1.1.0"
+
+[package.dependencies]
+setuptools = "*"
+
+[[package]]
+category = "main"
+description = "Python plotting package"
+name = "matplotlib"
+optional = false
+python-versions = ">=3.6"
+version = "3.1.1"
+
+[package.dependencies]
+cycler = ">=0.10"
+kiwisolver = ">=1.0.1"
+numpy = ">=1.11"
+pyparsing = ">=2.0.1,<2.0.4 || >2.0.4,<2.1.2 || >2.1.2,<2.1.6 || >2.1.6"
+python-dateutil = ">=2.1"
+
+[[package]]
+category = "main"
+description = "NumPy is the fundamental package for array computing with Python."
+name = "numpy"
+optional = false
+python-versions = ">=2.7,!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*"
+version = "1.16.4"
+
+[[package]]
+category = "main"
 description = "Pygments is a syntax highlighting package written in Python."
 name = "pygments"
 optional = true
 python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*"
 version = "2.4.2"
 
+[[package]]
+category = "main"
+description = "Python parsing module"
+name = "pyparsing"
+optional = false
+python-versions = ">=2.6, !=3.0.*, !=3.1.*, !=3.2.*"
+version = "2.4.0"
+
+[[package]]
+category = "main"
+description = "Extensions to the standard Python datetime module"
+name = "python-dateutil"
+optional = false
+python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*"
+version = "2.8.0"
+
+[package.dependencies]
+six = ">=1.5"
+
+[[package]]
+category = "main"
+description = "Python 2 and 3 compatibility utilities"
+name = "six"
+optional = false
+python-versions = ">=2.6, !=3.0.*, !=3.1.*"
+version = "1.12.0"
+
+[extras]
+kivy = ["kivy"]
+
 [metadata]
-content-hash = "c8c283d2fe834c4cc3c6f7b8f18861accd782ab400bce3bd24c74f721c6ca0c7"
+content-hash = "37d916b347e4eb052c26ec2df79e28e275d568fd97efbc89f2f938c54e1aa69a"
 python-versions = "^3.7"
 
 [metadata.hashes]
-docutils = ["54a349c622ff31c91cbec43b0b512f113b5b24daf00e2ea530bb1bd9aac14849", "ba4584f9107571ced0d2c7f56a5499c696215ba90797849c92d395979da68521", "d2ddba74835cb090a1b627d3de4e7835c628d07ee461f7b4480f51af2fe4d448"]
+cycler = ["1d8a5ae1ff6c5cf9b93e8811e581232ad8920aeec647c37316ceac982b08cb2d", "cd7b2d1018258d7247a71425e9f26463dfb444d411c39569972f4ce586b0c9d8"]
+docutils = ["554158db07870b514e8df93800e95ee8fbf2a2388eb453c7f69206532a8a6fa5", "82725b1051b92aaa42e240a4e5d6fafa2f6f5a2b5023b23a51c941dd7d863369"]
 kivy = ["090d3ded9835a17477cd93fbdaf0a7c42ff2218981cf198ded5ad8795bc74391", "11e85eaf6efbfa2362a3334ffdad179a1b0ca8d255cca79eaa6a2765560d4982", "1a1ff32f8a95f1e175198cbab81fcd2596783b180d4eafe63e87d171aa7fdb5e", "1d28b198a64c30db8d94a0488e85f3037af60d514ab0d7ad5ab45add3ab77090", "4a5480cbf837d3780c77a4f61b32b56d22ae9f03845e7a89dd3eaef1ae5fd037", "4d0e596f74271e901b551f77661dde238df4765484fce9f5d1c72e8022984e84", "5c3d0f2749522d62e9cce09cd54b2d823bf1b6b644ff1f627be49de6f3e3cba0", "815a5c0b3b72fcd81ca7b2aa0744087163ed03e4cf9ab4e7c9733cea99fc1571", "8819a27a09871af451760cb69486ced52e830c8a0a37480f22ef5e692f12c05b", "a687602d90c4629dd036f577ca39acb76ba581370f9d915f3cab99be818ba8ad", "b7ef6aad43a86d8df3fb865db864e354f2155a748019f8517f69f65c1a29cb64", "b85ccf165050cbf2ee8447671eebbc222b369b40f0e0038dd9547d49a5e37373", "c36652caa7f6c327dee834cfc699d5962d346b7a53e54bd81abc17c314226d89", "ece170514db3f49844a41e4c910ad9ce9bc46da6f47a49158e11266bdcc6e479", "f3bea6e4a21991827885d04127fc6d09a0e974ecfa12da7bf5faae93562ea102", "f835462dd9aa491272552ef079b948a088598e2e95d68bb1d885d2c3f3d4e2c3"]
 kivy-garden = ["9b7d9de5efacbcd0c4b3dd873b30622a86093c9965aa47b523c7a32f3eb34610", "c256f42788421273a08fbb0a228f0fb0e80dd86b629fb8c0920507f645be6c72"]
+kiwisolver = ["05b5b061e09f60f56244adc885c4a7867da25ca387376b02c1efc29cc16bcd0f", "26f4fbd6f5e1dabff70a9ba0d2c4bd30761086454aa30dddc5b52764ee4852b7", "3b2378ad387f49cbb328205bda569b9f87288d6bc1bf4cd683c34523a2341efe", "400599c0fe58d21522cae0e8b22318e09d9729451b17ee61ba8e1e7c0346565c", "47b8cb81a7d18dbaf4fed6a61c3cecdb5adec7b4ac292bddb0d016d57e8507d5", "53eaed412477c836e1b9522c19858a8557d6e595077830146182225613b11a75", "58e626e1f7dfbb620d08d457325a4cdac65d1809680009f46bf41eaf74ad0187", "5a52e1b006bfa5be04fe4debbcdd2688432a9af4b207a3f429c74ad625022641", "5c7ca4e449ac9f99b3b9d4693debb1d6d237d1542dd6a56b3305fe8a9620f883", "682e54f0ce8f45981878756d7203fd01e188cc6c8b2c5e2cf03675390b4534d5", "79bfb2f0bd7cbf9ea256612c9523367e5ec51d7cd616ae20ca2c90f575d839a2", "7f4dd50874177d2bb060d74769210f3bce1af87a8c7cf5b37d032ebf94f0aca3", "8944a16020c07b682df861207b7e0efcd2f46c7488619cb55f65882279119389", "8aa7009437640beb2768bfd06da049bad0df85f47ff18426261acecd1cf00897", "939f36f21a8c571686eb491acfffa9c7f1ac345087281b412d63ea39ca14ec4a", "9733b7f64bd9f807832d673355f79703f81f0b3e52bfce420fc00d8cb28c6a6c", "a02f6c3e229d0b7220bd74600e9351e18bc0c361b05f29adae0d10599ae0e326", "a0c0a9f06872330d0dd31b45607197caab3c22777600e88031bfe66799e70bb0", "acc4df99308111585121db217681f1ce0eecb48d3a828a2f9bbf9773f4937e9e", "b64916959e4ae0ac78af7c3e8cef4becee0c0e9694ad477b4c6b3a536de6a544", "d3fcf0819dc3fea58be1fd1ca390851bdb719a549850e708ed858503ff25d995", "d52e3b1868a4e8fd18b5cb15055c76820df514e26aa84cc02f593d99fef6707f", "db1a5d3cc4ae943d674718d6c47d2d82488ddd94b93b9e12d24aabdbfe48caee", "e3a21a720791712ed721c7b95d433e036134de6f18c77dbe96119eaf7aa08004", "e8bf074363ce2babeb4764d94f8e65efd22e6a7c74860a4f05a6947afc020ff2", "f16814a4a96dc04bf1da7d53ee8d5b1d6decfc1a92a63349bb15d37b6a263dd9", "f2b22153870ca5cf2ab9c940d7bc38e8e9089fa0f7e5856ea195e1cf4ff43d5a", "f790f8b3dff3d53453de6a7b7ddd173d2e020fb160baff578d578065b108a05f"]
+matplotlib = ["1febd22afe1489b13c6749ea059d392c03261b2950d1d45c17e3aed812080c93", "31a30d03f39528c79f3a592857be62a08595dec4ac034978ecd0f814fa0eec2d", "4442ce720907f67a79d45de9ada47be81ce17e6c2f448b3c64765af93f6829c9", "796edbd1182cbffa7e1e7a97f1e141f875a8501ba8dd834269ae3cd45a8c976f", "934e6243df7165aad097572abf5b6003c77c9b6c480c3c4de6f2ef1b5fdd4ec0", "bab9d848dbf1517bc58d1f486772e99919b19efef5dd8596d4b26f9f5ee08b6b", "c1fe1e6cdaa53f11f088b7470c2056c0df7d80ee4858dadf6cbe433fcba4323b", "e5b8aeca9276a3a988caebe9f08366ed519fff98f77c6df5b64d7603d0e42e36", "ec6bd0a6a58df3628ff269978f4a4b924a0d371ad8ce1f8e2b635b99e482877a"]
+numpy = ["0778076e764e146d3078b17c24c4d89e0ecd4ac5401beff8e1c87879043a0633", "141c7102f20abe6cf0d54c4ced8d565b86df4d3077ba2343b61a6db996cefec7", "14270a1ee8917d11e7753fb54fc7ffd1934f4d529235beec0b275e2ccf00333b", "27e11c7a8ec9d5838bc59f809bfa86efc8a4fd02e58960fa9c49d998e14332d5", "2a04dda79606f3d2f760384c38ccd3d5b9bb79d4c8126b67aff5eb09a253763e", "3c26010c1b51e1224a3ca6b8df807de6e95128b0908c7e34f190e7775455b0ca", "52c40f1a4262c896420c6ea1c6fda62cf67070e3947e3307f5562bd783a90336", "6e4f8d9e8aa79321657079b9ac03f3cf3fd067bf31c1cca4f56d49543f4356a5", "7242be12a58fec245ee9734e625964b97cf7e3f2f7d016603f9e56660ce479c7", "7dc253b542bfd4b4eb88d9dbae4ca079e7bf2e2afd819ee18891a43db66c60c7", "94f5bd885f67bbb25c82d80184abbf7ce4f6c3c3a41fbaa4182f034bba803e69", "a89e188daa119ffa0d03ce5123dee3f8ffd5115c896c2a9d4f0dbb3d8b95bfa3", "ad3399da9b0ca36e2f24de72f67ab2854a62e623274607e37e0ce5f5d5fa9166", "b0348be89275fd1d4c44ffa39530c41a21062f52299b1e3ee7d1c61f060044b8", "b5554368e4ede1856121b0dfa35ce71768102e4aa55e526cb8de7f374ff78722", "cbddc56b2502d3f87fda4f98d948eb5b11f36ff3902e17cb6cc44727f2200525", "d79f18f41751725c56eceab2a886f021d70fd70a6188fd386e29a045945ffc10", "dc2ca26a19ab32dc475dbad9dfe723d3a64c835f4c23f625c2b6566ca32b9f29", "dd9bcd4f294eb0633bb33d1a74febdd2b9018b8b8ed325f861fffcd2c7660bb8", "e8baab1bc7c9152715844f1faca6744f2416929de10d7639ed49555a85549f52", "ec31fe12668af687b99acf1567399632a7c47b0e17cfb9ae47c098644ef36797", "f12b4f7e2d8f9da3141564e6737d79016fe5336cc92de6814eba579744f65b0a", "f58ac38d5ca045a377b3b377c84df8175ab992c970a53332fa8ac2373df44ff7"]
 pygments = ["71e430bc85c88a430f000ac1d9b331d2407f681d6f6aec95e8bcfbc3df5b0127", "881c4c157e45f30af185c1ffe8d549d48ac9127433f2c380c24b84572ad66297"]
+pyparsing = ["1873c03321fc118f4e9746baf201ff990ceb915f433f23b395f5580d1840cb2a", "9b6323ef4ab914af344ba97510e966d64ba91055d6b9afa6b30799340e89cc03"]
+python-dateutil = ["7e6584c74aeed623791615e26efd690f29817a27c73085b78e4bad02493df2fb", "c89805f6f4d64db21ed966fda138f8a5ed7a4fdbc1a8ee329ce1b74e3c74da9e"]
+six = ["3350809f0555b11f552448330d0b52d5f24c91a322ea4a15ef22629740f3761c", "d16a0141ec1a18405cd4ce8b4613101da75da0e9a7aec5bdd4fa804d0e0eba73"]
