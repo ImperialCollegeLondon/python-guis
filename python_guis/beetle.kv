@@ -35,6 +35,14 @@
             points: list(chain(*root.parent.control_points))
             pointsize: 10
 
+        Color:
+            rgba: 0.5, 0, 0.0, 0.8
+
+        Line:
+            points: root.parent.node_points
+            close: True
+            width: 2
+
     Image:
         id: image
         size_hint: 0.96, 0.96
@@ -108,10 +116,10 @@
         text: "1"
 
     DegreeButton:
-        text: "2"
+        text: "3"
 
     DegreeButton:
-        text: "3"
+        text: "6"
 
     Label:
         text_size: self.width, None

@@ -51,27 +51,37 @@ class PlayField(FloatLayout):
 
 class MainWindow(BoxLayout):
     control_points = ListProperty([])
+    node_points = ListProperty([])
 
     def on_segment(self):
         from numpy import array
         from skimage.io import imread
+        from .model import segment_one_image
 
         controls = self.ids.control_field
         display = self.ids.play_field
         degree = int(controls.degree)
         resolution = int(controls.resolution)
-        width = int(controls.ids.gaussian_width.value)
+        sigma = int(controls.ids.gaussian_width.value)
 
         image = imread(self.ids.play_field.image, as_gray=True)
-        factor = array(image.shape) / array(display.ids.image.size)
-        offset = array(display.ids.image.pos) - array(display.pos)
-        points = array(self.control_points) * factor + offset
+        factor = array(
+            [
+                image.shape[1] / display.ids.image.width,
+                image.shape[0] / display.ids.image.height,
+            ]
+        )
+        points = (array(self.control_points) - array(display.ids.image.pos)) * factor
 
-        segment(points, image, degree=degree, resolution=resolution, width=width)
-
-
-def segment(points, image, degree=2, resolution=360, width=2):
-    pass
+        breakpoint()
+        contour, initial = segment_one_image(
+            nodes=points, image=image, degree=degree, resolution=resolution, sigma=sigma
+        )
+        contour = contour / factor + display.ids.image.pos
+        initial = initial / factor + display.ids.image.pos
+        self.node_points = [
+            (contour[i, 0], contour[i, 1]) for i in range(contour.shape[0])
+        ]
 
 
 class BeetleApp(App):
@@ -80,4 +90,6 @@ class BeetleApp(App):
 
 
 if __name__ == "__main__":
+    from python_guis.gui_kivy import BeetleApp  # noqa
+
     BeetleApp().run()
