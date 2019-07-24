@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
+from pathlib import Path
 
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
@@ -163,7 +164,8 @@ class BeetlePicker(tk.Tk):
 
     def read_image(self, *args):
         """Opens the image to segment."""
-        self.image = imread("insects.jpg", as_gray=True)
+        path = Path(__file__).parent / "insects.jpg"
+        self.image = imread(path, as_gray=True)
         self.redraw()
         self.fig.canvas.mpl_connect("button_release_event", self.add_node)
 

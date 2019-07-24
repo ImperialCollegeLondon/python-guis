@@ -249,7 +249,7 @@ class BeetlePicker(tk.Tk):
             )
 
         for k, value in self.segments.items():
-            self.axes.plot(*value.T)
+            self.axes.plot(*value[0].T)
             self.available_segmentations.insert(tk.END, k + "\n")
 
         for n in self.nodes:
