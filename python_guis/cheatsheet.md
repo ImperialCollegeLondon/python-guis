@@ -22,14 +22,95 @@ The main sources of information and reference for each of the frameworks are:
     - [API Reference](https://kivy.org/doc/stable/api-kivy.html)
     - [Wiki](https://github.com/kivy/kivy/wiki)
 
+## Installation
+
+- *Matplotlib*:
+
+Plots are common elements in most research software. None of the above frameworks have any widget related to plots, but all of them have support to incorporating figures created with Matploltib,  the most common (although not the only one) plotting library in Python. Matplotlib can be installed with:
+
+```bash
+pip install matplotlib
+```
+
+- *Jupyter Widgets*:
+
+Jupyter Widgets requires Jupyter, of course, and the `ipywidgets` package, and to enable the widget extension in Jupyter. Assuming you've already [installed Jupyter](https://jupyter.readthedocs.io/en/latest/install.html), [installing the widgets](https://ipywidgets.readthedocs.io/en/stable/user_install.html) should be straightforward either with pip or conda:
+
+```bash
+pip install ipywidgets
+jupyter nbextension enable --py widgetsnbextension
+```
+
+or 
+
+```bash
+conda install -c conda-forge ipywidgets
+```
+
+The conda command automatically enables the extension. Depending on your system, installing Jupyter might install and enable the widgets automatically.
+
+- *Tkinter*:
+
+[Tkinter is part of the standard Python library](https://docs.python.org/3/library/tk.html) so chances are that nothing else needs to be done in order to use it. However, in some Linux distributions it is provided as a separate package. For example, in Ubuntu you will need to run:
+
+```bash
+sudo apt install python3-tk
+```
+
+- *Kivy*:
+
+Kivy webpage offers [very detailed instructions](https://kivy.org/#download) for its installation on the main OS. There are precompiled wheels that can be installed using pip, in addition to optional dependencies:
+
+```bash
+pip install kivy
+```
+
+Kivy can also be installed using conda with:
+
+```bash
+conda install kivy -c conda-forge
+```
+
+Extra tools are needed in order to run Kivy examples in Android or IOS. 
+
+Many addons are distributed as part of [Kivy Garden](https://kivy-garden.github.io), developed and mantained by the community. One of them is the Kivy backend for Matplotlib, which we will use below. 
+
+There are different instructions depending on the *vintage* of the *flower*, as Kivy Garden addons are called. In particular, to install the Matplotlib backend, first install the [legacy kivy-garden](https://kivy.org/doc/stable/api-kivy.garden.html#legacy-garden-tool-instructions) tool with pip and then use that tool to install the backend:
+
+```bash
+pip install kivy-garden
+garden install matplotlib
+```
 
 ## Pre-requisites
 
 The following import statements need to be called before importing the widgets below:
 
-| *Jupyter* | *Tkinter* | *Kivy* |
-|:---------:|:---------:|:------:|
-| `import ipywidgets as widgets`  | `from tkinter import ttk`<br>or for some widgets:<br>`import tkinter as tk`| Each widget lives in its own submodule of:<br>`from kivy import uix`|
+- *Jupyter Widgets*:
+
+```python
+import ipywidgets as widgets
+```
+
+- *Tkinter*:
+
+```python
+from tkinter import ttk
+```
+
+and for some older widgets:
+
+```python
+import tkinter as tk
+```
+    
+- *Kivy*:
+
+Each widget lives in its own submodule of `uix`:
+
+```python
+from kivy import uix
+```
 
 ## Common widgets
 
@@ -41,7 +122,7 @@ The following import statements need to be called before importing the widgets b
 | *Text*<br>(multi-line) | [`widgets.Textarea(...)`](https://ipywidgets.readthedocs.io/en/stable/examples/Widget%20List.html#Textarea)| [`tk.Text(...)`](https://tkdocs.com/tutorial/morewidgets.html#text) | [`uix.textinput.Textinput(...)`](https://kivy.org/doc/stable/api-kivy.uix.textinput.html?highlight=textinput#module-kivy.uix.textinput)|
 | *Radio buttons* | [`widgets.RadioButtons(...)`](https://ipywidgets.readthedocs.io/en/stable/examples/Widget%20List.html#RadioButtons)| [`ttk.Radiobutton(..., variable=…)`](https://tkdocs.com/tutorial/widgets.html#radiobutton) | [`uix.checkbox.CheckBox(..., group=…)`](https://kivy.org/doc/stable/api-kivy.uix.checkbox.html?highlight=checkbox#module-kivy.uix.checkbox)|
 | *Checkbox* | [`widgets.RadioButtons(...)`](https://ipywidgets.readthedocs.io/en/stable/examples/Widget%20List.html#Checkbox)| [`ttk.Checkbutton(...)`](https://tkdocs.com/tutorial/widgets.html#checkbutton) |[`uix.checkbox.CheckBox(...)`](https://kivy.org/doc/stable/api-kivy.uix.checkbox.html?highlight=checkbox#module-kivy.uix.checkbox)|
-| *Dropdown* | [`widgets.Dropdown(...)`](https://ipywidgets.readthedocs.io/en/stable/examples/Widget%20List.html#Dropdown)| [`ttk.Combobox(...)`](https://docs.python.org/3/library/tkinter.ttk.html#tkinter.ttk.Combobox) | [`uix.spinner.Spinner(...)`](https://kivy.org/doc/stable/api-kivy.uix.spinner.html?highlight=spinner#module-kivy.uix.spinner)|
+| *Dropdown* | [`widgets.Dropdown(...)`](https://ipywidgets.readthedocs.io/en/stable/examples/Widget%20List.html#Dropdown)| [`ttk.Combobox(...)`](https://docs.python.org/3/library/tkinter.ttk.html#combobox) | [`uix.spinner.Spinner(...)`](https://kivy.org/doc/stable/api-kivy.uix.spinner.html?highlight=spinner#module-kivy.uix.spinner)|
 | *Slider* | [`widgets.IntSlider(...)`](https://ipywidgets.readthedocs.io/en/stable/examples/Widget%20List.html#IntSlider)<br>[`widgets.FloatSlider(...)`](https://ipywidgets.readthedocs.io/en/stable/examples/Widget%20List.html#FloatSlider)| [`tk.Scale(...)`](https://tkdocs.com/tutorial/morewidgets.html#scale) | [`uix.slider.Slider(...)`](https://kivy.org/doc/stable/api-kivy.uix.slider.html?highlight=slider#module-kivy.uix.slider)|
 
 ## Container and layout widgets
@@ -140,7 +221,7 @@ book.add_widget(hbox2)
 book.add_widget(hbox3)
 ```
 
-## A minimum working example
+## A minimum working example (MWE)
 
 The MWE for the three frameworks will have the following elements:
 
@@ -155,11 +236,11 @@ We will ignore anything related to aesthetics or customisation of the look and f
 import ipywidgets as widgets
 from IPython.display import display
 
-def callback(l):
-    l.value = "Hello Pythoners!"
+def on_button_clicked(button):
+    label.value = "Hello Pythoners!"
 
 # Create the widgets.
-button = widgets.Button(description='Click me')
+button = widgets.Button(description="Click me")
 label = widgets.Label(value='')
 hbox = widgets.HBox()
 
@@ -167,13 +248,13 @@ hbox = widgets.HBox()
 hbox.children=[button, label]
 
 # Add the callback of the button.
-button.on_click(lambda *args: callback(label))
+button.on_click(on_button_clicked)
 
 # Display the top container.
 display(hbox)
 ```
 
-- **Tkinter** (might cause the kernel to fail on exit if run within a Jupyter notebook)
+- **Tkinter**
 
     - [The obligatory first program](https://tkdocs.com/tutorial/install.html#helloworld)
     
@@ -181,41 +262,37 @@ display(hbox)
 import tkinter as tk
 from tkinter import ttk
 
-def callback(l):
-    l["text"] = "Hello Pythoners!"
+def on_button_clicked():
+    label["text"] = "Hello Pythoners!"
 
 # Create the widgets. This includes adding them to a container.
 root = tk.Tk()
-button = ttk.Button(master=root, text='Click me')
-label = ttk.Label(master=root, text='')
+button = ttk.Button(master=root, text="Click me")
+label = ttk.Label(master=root, text="")
 
 # Create their physical arrangement.
 button.pack(side=tk.LEFT)
 label.pack(side=tk.LEFT)
 
 # Add the callback of the button.
-button.configure(command=lambda *args: callback(label))
+button.configure(command=on_button_clicked)
 
 # Run the main window loop, which starts the program.
 root.mainloop()
 ```
 
-- **Kivy** (might cause the kernel to fail on exit if run within a Jupyter notebook)
+- **Kivy**
 
     - [Creating a basic Kivy application](https://kivy.org/doc/stable/guide/basic.html#create-an-application)
     
 ```python
-from kivy.config import Config
-# We don't want a fullscreen App here.
-Config.set('graphics', 'fullscreen', '0')
-
 from kivy.app import App
 from kivy.uix.button import Button
 from kivy.uix.label import Label
 from kivy.uix.boxlayout import BoxLayout
 
-def callback(l):
-    l.text = "Hello Pythoners!"
+def on_button_clicked(label):
+    label.text = "Hello Pythoners!"
     
 # Create main application.
 class HelloApp(App):
@@ -223,19 +300,182 @@ class HelloApp(App):
         
         # Create the widgets.
         hbox = BoxLayout()
-        button = Button(text='Click me')
-        label = Label(text='')
+        button = Button(text="Click me")
+        label = Label(text="")
         
         # Add them to a container. This includes setting their physical arrangement. 
         hbox.add_widget(button)
         hbox.add_widget(label)
         
         # Add the callback of the button.
-        button.bind(on_press=lambda *args: callback(label))
+        button.bind(on_press=lambda button: on_button_clicked(label))
         
-        # Return the top container
+        # Return the top container. This can be any widget
         return hbox
 
 # Run the main windoow loop, which starts the program.
-HelloApp().run()
+if __name__ == "__main__":
+    
+    from kivy.config import Config
+    # We don't want a fullscreen App here.
+    Config.set("graphics", "fullscreen", "0")
+
+    HelloApp().run()
+```
+
+Note: Running Tkinter or Kivy within a Jupyter notebook might cause the kernel to fail on exit. Better to run them as normal Python scripts.
+
+## Plotting
+
+- **Jupyter Widgets**
+
+The creation of the figure and data plotting has to be done within an [Output widget](https://ipywidgets.readthedocs.io/en/stable/examples/Output%20Widget.html) context manager. Indeed, output widgets can be used to display pretty much anything, from standard output, to errors, videos, figures, etc. The Output widget has to be arranged within a container as with any other widget.
+
+If the plot is to be interactive, then the directive `%matplotlib notebook` has to be used before importing Matplotlib. Otherwise, `%matplotlib inline` is enough, displaying the figure as an image.
+
+The following example displays a label and a plot side by side. We connect an event to the figure canvas to draw points when we click on the plot.
+
+```python
+%matplotlib notebook
+import ipywidgets as widgets
+from IPython.display import display
+
+import matplotlib.pyplot as plt
+import numpy as np
+
+
+def on_canvas_click(event):
+    if event.inaxes:
+        event.inaxes.plot([event.xdata], [event.ydata], marker="o", color="r")
+        event.canvas.draw()
+
+
+data = np.random.random((10, 10))
+
+# Create the widgets and display the top container.
+label = widgets.Label(value="Click on the plot as many times as you want!")
+out1 = widgets.Output()
+hbox = widgets.HBox(children=[label, out1])
+display(hbox)
+
+# Define what should be shown in the Output widget
+with out1:
+    fig, axes = plt.subplots()
+    axes.imshow(data)
+    fig.canvas.mpl_connect("button_press_event", on_canvas_click)
+    fig.canvas.draw()
+```
+
+- **Tkinter**
+
+Matplotlib has builtin support for Tkinter, providing a backend that replaces the default figure canvas by a Tkinter canvas. The Tkinter version of the navigation toolbar can also be added to the GUI.
+
+The following example is the Tkinter version of the above:
+
+```python
+import tkinter as tk
+import tkinter.ttk as ttk
+
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2Tk
+from matplotlib.figure import Figure
+import numpy as np
+
+
+def on_canvas_click(event):
+    if event.inaxes:
+        event.inaxes.plot([event.xdata], [event.ydata], marker="o", color="r")
+        event.canvas.draw()
+
+
+data = np.random.random((10, 10))
+
+# Create the widgets.
+root = tk.Tk()
+ttk.Label(root, text="Click on the plot as many times as you want!").pack(side=tk.LEFT)
+
+# Create the figure.
+fig = Figure()
+axes = fig.add_subplot()
+axes.imshow(data)
+
+# And use the Tkinter version of the canvas and the toolbar.
+# Both need to be packed (or grid) as with any other widget.
+canvas = FigureCanvasTkAgg(fig, master=root)
+canvas.get_tk_widget().pack(side=tk.LEFT)
+canvas.mpl_connect("button_press_event", on_canvas_click)
+canvas.draw()
+
+toolbar = NavigationToolbar2Tk(canvas, root)
+canvas.get_tk_widget().pack(side=tk.TOP)
+toolbar.update()
+
+# Run the main window loop, which starts the program.
+root.mainloop()
+```
+
+- **Kivy**
+
+Kivy works very similar to Tkinter, but in this case the backend is provided as part of the community-contributed Kivy Garden packages, as discussed [above](#installation). You will notice that this backend has built-in the capability of drawing (and dragging) red points on the plot. Try using the right click!
+
+The interactive plot example using Kivy will look like this:
+
+```python
+from kivy.garden.matplotlib.backend_kivyagg import (
+    FigureCanvasKivyAgg,
+    NavigationToolbar2Kivy,
+)
+from kivy.app import App
+from kivy.uix.label import Label
+from kivy.uix.boxlayout import BoxLayout
+
+from matplotlib.figure import Figure
+import numpy as np
+
+
+def on_canvas_click(event):
+    if event.inaxes:
+        event.inaxes.plot([event.xdata], [event.ydata], marker="o", color="r")
+        event.canvas.draw()
+
+
+# Create main application.
+class HelloApp(App):
+    def build(self):
+        data = np.random.random((10, 10))
+
+        # Create the widgets. We need a vertical box to arrange the navigation toolbar
+        hbox = BoxLayout()
+        vbox = BoxLayout(orientation="vertical")
+        label = Label(text="Click on the plot as many times as you want!")
+
+        # Create the figure.
+        fig = Figure()
+        axes = fig.add_subplot()
+        axes.imshow(data)
+        canvas = FigureCanvasKivyAgg(fig)
+        nav = NavigationToolbar2Kivy(canvas)
+
+        # Add them to a container.
+        vbox.add_widget(canvas)
+        vbox.add_widget(nav.actionbar)
+        hbox.add_widget(label)
+        hbox.add_widget(vbox)
+
+        # Add the callback of the canvas.
+        canvas.mpl_connect("button_press_event", on_canvas_click)
+        canvas.draw()
+
+        # Return the top container. This can be any widget
+        return hbox
+
+
+# Run the main windoow loop, which starts the program.
+if __name__ == "__main__":
+    from kivy.config import Config
+
+    # We don't want a fullscreen App here.
+    Config.set("graphics", "fullscreen", "0")
+
+    HelloApp().run()
+
 ```
