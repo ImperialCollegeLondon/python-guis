@@ -118,17 +118,12 @@ from kivy import uix
 |--------|---------|---------|------|
 | *Button* | [`widgets.Button(...)`](https://ipywidgets.readthedocs.io/en/stable/examples/Widget%20List.html#Button)| [`ttk.Button(...)`](https://tkdocs.com/tutorial/widgets.html#button) | [`uix.button.Button(...)`](https://kivy.org/doc/stable/api-kivy.uix.button.html?highlight=button#module-kivy.uix.button)|
 | *Label* | [`widgets.Label(...)`](https://ipywidgets.readthedocs.io/en/stable/examples/Widget%20List.html#Label)| [`ttk.Label(...)`](https://tkdocs.com/tutorial/widgets.html#label) | [`uix.label.Label(...)`](https://kivy.org/doc/stable/api-kivy.uix.label.html?highlight=label#module-kivy.uix.label)|
-| *Entry*<br>(1-line) | [`widgets.Text(...)`](https://ipywidgets.readthedocs.io/en/stable/examples/Widget%20List.html#Text)| [`ttk.Entry(...)`](https://tkdocs.com/tutorial/widgets.html#entry)| [`uix.textinput.Textinput(...)`](https://kivy.org/doc/stable/api-kivy.uix.textinput.html?highlight=textinput#module-kivy.uix.textinput)[1](#multiline)|
+| *Entry*<br>(1-line) | [`widgets.Text(...)`](https://ipywidgets.readthedocs.io/en/stable/examples/Widget%20List.html#Text)| [`ttk.Entry(...)`](https://tkdocs.com/tutorial/widgets.html#entry)| [`uix.textinput.Textinput(..., multiline=False)`](https://kivy.org/doc/stable/api-kivy.uix.textinput.html?highlight=textinput#module-kivy.uix.textinput)|
 | *Text*<br>(multi-line) | [`widgets.Textarea(...)`](https://ipywidgets.readthedocs.io/en/stable/examples/Widget%20List.html#Textarea)| [`tk.Text(...)`](https://tkdocs.com/tutorial/morewidgets.html#text) | [`uix.textinput.Textinput(...)`](https://kivy.org/doc/stable/api-kivy.uix.textinput.html?highlight=textinput#module-kivy.uix.textinput)|
-| *Radio buttons* | [`widgets.RadioButtons(...)`](https://ipywidgets.readthedocs.io/en/stable/examples/Widget%20List.html#RadioButtons)| [`ttk.Radiobutton(...)`](https://tkdocs.com/tutorial/widgets.html#radiobutton)[2](#groups) | [`uix.checkbox.CheckBox(...)`](https://kivy.org/doc/stable/api-kivy.uix.checkbox.html?highlight=checkbox#module-kivy.uix.checkbox)[2](#groups)|
+| *Radio buttons* | [`widgets.RadioButtons(...)`](https://ipywidgets.readthedocs.io/en/stable/examples/Widget%20List.html#RadioButtons)| [`ttk.Radiobutton(..., variable=…)`](https://tkdocs.com/tutorial/widgets.html#radiobutton) | [`uix.checkbox.CheckBox(..., group=…)`](https://kivy.org/doc/stable/api-kivy.uix.checkbox.html?highlight=checkbox#module-kivy.uix.checkbox)|
 | *Checkbox* | [`widgets.RadioButtons(...)`](https://ipywidgets.readthedocs.io/en/stable/examples/Widget%20List.html#Checkbox)| [`ttk.Checkbutton(...)`](https://tkdocs.com/tutorial/widgets.html#checkbutton) |[`uix.checkbox.CheckBox(...)`](https://kivy.org/doc/stable/api-kivy.uix.checkbox.html?highlight=checkbox#module-kivy.uix.checkbox)|
 | *Dropdown* | [`widgets.Dropdown(...)`](https://ipywidgets.readthedocs.io/en/stable/examples/Widget%20List.html#Dropdown)| [`ttk.Combobox(...)`](https://docs.python.org/3/library/tkinter.ttk.html#combobox) | [`uix.spinner.Spinner(...)`](https://kivy.org/doc/stable/api-kivy.uix.spinner.html?highlight=spinner#module-kivy.uix.spinner)|
 | *Slider* | [`widgets.IntSlider(...)`](https://ipywidgets.readthedocs.io/en/stable/examples/Widget%20List.html#IntSlider)<br>[`widgets.FloatSlider(...)`](https://ipywidgets.readthedocs.io/en/stable/examples/Widget%20List.html#FloatSlider)| [`tk.Scale(...)`](https://tkdocs.com/tutorial/morewidgets.html#scale) | [`uix.slider.Slider(...)`](https://kivy.org/doc/stable/api-kivy.uix.slider.html?highlight=slider#module-kivy.uix.slider)|
-
-<a name="multiline">1</a>: Set argument `multiline=False`. 
-
-<a name="groups">2</a>: There has to be one of this statements per button, all linked to the same `variable` (Tkinter) or the same `group` (Kivy). 
-
 
 ## Container and layout widgets
 
@@ -234,7 +229,7 @@ The MWE for the three frameworks will have the following elements:
 - A non-editable text area showing a text after clicking the button.
 - A top container/main window holding the above two side by side.
 
-We will ignore anything related to aesthetics or customisation of the look and feel, although that is often a big part of the creation of the GUI. The reason is that the three frameworks differ massively in how to do this, so it is best to focus in how to achieve the same functionality, for now, and let the one interested to explore on their own how to make the MWE look nicer. 
+We will ignore anything related to aesthetics or customisation of the look and feel, although that is often a big part of the creation of the GUI. The reason is that the three frameworks differ massively in how to do this, so it is best to focus on how to achieve the same functionality, for now. 
 
 - **Jupyter Widgets** (Needs to be run within a Jupyter notebook)
 ```python
