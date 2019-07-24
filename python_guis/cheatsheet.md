@@ -24,10 +24,17 @@ The main sources of information and reference for each of the frameworks are:
 
 ## Installation
 
+- *Matplotlib*:
+
+Plots are common elements in most research software. None of the above frameworks have any widget related to plots, but all of them have support to incorporating figures created with Matploltib,  the most common (although not the only one) plotting library in Python. Matplotlib can be installed with:
+
+```bash
+pip install matplotlib
+```
+
 - *Jupyter Widgets*:
 
-Jupyter Widgets requires Jupyter, of course, and the `ipywidgets` package, and to enable the widget extension in Jupyter. Assuming you already have Jupyter installed, [installing the widgets](https://ipywidgets.readthedocs.io/en/stable/user_install.html) should be straight forward either with pip or conda:
-
+Jupyter Widgets requires Jupyter, of course, and the `ipywidgets` package, and to enable the widget extension in Jupyter. Assuming you've already [installed Jupyter](https://jupyter.readthedocs.io/en/latest/install.html), [installing the widgets](https://ipywidgets.readthedocs.io/en/stable/user_install.html) should be straightforward either with pip or conda:
 
 ```bash
 pip install ipywidgets
@@ -40,7 +47,7 @@ or
 conda install -c conda-forge ipywidgets
 ```
 
-The conda command automatically enables the extension.
+The conda command automatically enables the extension. Depending on your system, installing Jupyter might install and enable the widgets automatically.
 
 - *Tkinter*:
 
@@ -325,8 +332,6 @@ Note: Running Tkinter or Kivy within a Jupyter notebook might cause the kernel t
 
 ## Plotting
 
-Plots are common elements in most research software. None of the above frameworks have any widget related to plots, but all of them have support to incorporating figures created with Matploltib,  the most common (although not the only one) plotting library in Python. 
-
 - **Jupyter Widgets**
 
 The creation of the figure and data plotting has to be done within an [Output widget](https://ipywidgets.readthedocs.io/en/stable/examples/Output%20Widget.html) context manager. Indeed, output widgets can be used to display pretty much anything, from standard output, to errors, videos, figures, etc. The Output widget has to be arranged within a container as with any other widget.
@@ -336,7 +341,7 @@ If the plot is to be interactive, then the directive `%matplotlib notebook` has 
 The following example displays a label and a plot side by side. We connect an event to the figure canvas to draw points when we click on the plot.
 
 ```python
-% matplotlib notebook
+%matplotlib notebook
 import ipywidgets as widgets
 from IPython.display import display
 
