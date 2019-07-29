@@ -73,7 +73,6 @@ class MainWindow(BoxLayout):
         )
         points = (array(self.control_points) - array(display.ids.image.pos)) * factor
 
-        breakpoint()
         contour, initial = segment_one_image(
             nodes=points, image=image, degree=degree, resolution=resolution, sigma=sigma
         )

@@ -1,4 +1,5 @@
 #:import chain itertools.chain
+#:set text_factor 1.6
 
 <MainWindow>:
     orientation: "horizontal"
@@ -48,11 +49,12 @@
         size_hint: 0.96, 0.96
         pos_hint: {'x': 0.02, 'y': 0.02}
         source: self.parent.image
+        allow_stretch: False
 
 
 <DegreeButton@ToggleButton>:
     size_hint: (0.7 / 3, None)
-    height: 30
+    height: 60
     group: "degree"
     text: "1"
     state: "down" if self.parent.degree == int(self.text) else "normal"
@@ -79,7 +81,7 @@
         text: "Gaussian filter width:"
 
     Label:
-        text_size: 30, 60
+        text_size: None, gaussian_width.height
         size: self.texture_size
         size_hint: (0.1, None)
         halign: "center"
@@ -89,7 +91,6 @@
     Slider:
         id: gaussian_width
         size_hint: (0.9, None)
-        height: 60
         min: 1
         max: 10
         step: 1
@@ -105,25 +106,30 @@
         text: "Spline parameters:"
 
     Label:
+        id: degree_label
         text_size: self.width, None
-        size: self.texture_size[1], 30
+        size: self.texture_size[0], int(self.texture_size[1] * text_factor)
         size_hint: (0.30, None)
         halign: "left"
         valign: "middle"
         text: "Degree:"
 
     DegreeButton:
+        height: degree_label.height
         text: "1"
 
     DegreeButton:
+        height: degree_label.height
         text: "3"
 
     DegreeButton:
+        height: degree_label.height
         text: "6"
 
     Label:
+        id: resolution_label
         text_size: self.width, None
-        size: self.texture_size[1], 30
+        size: self.texture_size[0], int(self.texture_size[1] * text_factor)
         size_hint: (0.40, None)
         halign: "left"
         valign: "middle"
@@ -131,7 +137,7 @@
 
     TextInput:
         size_hint: (0.60, None)
-        height: 30
+        height: resolution_label.height
         halign: "left"
         valign: "middle"
         text: str(root.resolution)
@@ -139,14 +145,12 @@
         on_text: root.on_resolution_change(self)
 
     Button:
-        height: 30
         size_hint: (1, None)
         text: "Perform segmentation"
         disabled: len(root.parent.control_points) <= 2
         on_press: root.parent.on_segment()
 
     Button:
-        height: 30
         size_hint: (1, None)
         text: "Remove all"
         disabled: len(root.parent.control_points) == 0
