@@ -10,47 +10,9 @@
         id: control_field
         size_hint: (.35, 1)
 
-    PlayField:
+    Matplotlib:
         id: play_field
         size_hint: (0.65, 1)
-
-<PlayField>:
-    canvas:
-        Color:
-            rgba: 0.9, 0.9, 0.88, 1
-
-        Rectangle:
-            size: self.size
-            pos: self.pos
-
-    canvas.after:
-        Color:
-            rgba: 0, 0, 0.5, 0.5
-
-        Line:
-            points: root.parent.control_points
-            close: True
-            width: 3
-
-        Point:
-            points: list(chain(*root.parent.control_points))
-            pointsize: 10
-
-        Color:
-            rgba: 0.5, 0, 0.0, 0.8
-
-        Line:
-            points: root.parent.node_points
-            close: True
-            width: 2
-
-    Image:
-        id: image
-        size_hint: 0.96, 0.96
-        pos_hint: {'x': 0.02, 'y': 0.02}
-        source: self.parent.image
-        allow_stretch: False
-
 
 <DegreeButton@ToggleButton>:
     size_hint: (0.7 / 3, None)
@@ -147,7 +109,7 @@
     Button:
         size_hint: (1, None)
         text: "Perform segmentation"
-        disabled: len(root.parent.control_points) <= 2
+        disabled: len(root.parent.play_field.control_points) <= 2
         on_press: root.parent.on_segment()
 
     Button:
