@@ -3,7 +3,7 @@ from pathlib import Path
 from kivy.app import App
 from kivy.config import Config
 from kivy.garden.matplotlib.backend_kivyagg import FigureCanvasKivyAgg
-from kivy.properties import ListProperty, NumericProperty
+from kivy.properties import ListProperty, NumericProperty, ObjectProperty
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.stacklayout import StackLayout
 from matplotlib.pyplot import Figure
@@ -15,7 +15,8 @@ Config.set("graphics", "height", "600")
 
 class Matplotlib(FigureCanvasKivyAgg):
     control_points = ListProperty([])
-    node_points = ListProperty([])
+    contour = ListProperty([])
+    controls = ObjectProperty(None)
     diameter = 30.0
 
     def __init__(self, **kwargs):
@@ -29,21 +30,14 @@ class Matplotlib(FigureCanvasKivyAgg):
             str(Path(__file__).parent / "insects.jpg"), as_gray=True
         )
 
-        def control_point_change(*args):
-            self.draw_control_points(self.figure.axes[0])
-            self.figure.canvas.draw()
+        def add_control_point(event):
+            if event.inaxes is not None:
+                self.control_points.append((event.xdata, event.ydata))
 
-        def node_point_change(*args):
-            self.draw_node_points(self.figure.axes[0])
-            self.figure.canvas.draw()
-
-        def add_node(event):
-            if event.inaxes is None:
-                return
-            self.control_points.append((event.xdata, event.ydata))
-
-        self.bind(control_points=control_point_change, node_points=node_point_change)
-        self.figure.canvas.mpl_connect("button_release_event", add_node)
+        self.bind(
+            control_points=lambda *args: self.draw(), contour=lambda *args: self.draw()
+        )
+        self.mpl_connect("button_release_event", add_control_point)
 
     def draw(self):
         from matplotlib import pyplot as plt
@@ -58,7 +52,7 @@ class Matplotlib(FigureCanvasKivyAgg):
         axes.get_xaxis().set_visible(False)
         axes.get_yaxis().set_visible(False)
         self.draw_control_points(axes)
-        self.draw_node_points(axes)
+        self.draw_contour(axes)
         return super().draw()
 
     def draw_control_points(self, axes):
@@ -71,11 +65,11 @@ class Matplotlib(FigureCanvasKivyAgg):
         )
         axes.plot(x, y, "ro-")
 
-    def draw_node_points(self, axes):
-        if len(self.node_points) == 0:
+    def draw_contour(self, axes):
+        if len(self.contour) == 0:
             return
 
-        x, y = ([x[0] for x in self.node_points], [x[1] for x in self.node_points])
+        x, y = ([x[0] for x in self.contour], [x[1] for x in self.contour])
         axes.plot(x, y, "b-", linewidth=2)
 
     def on_segment(self, degree, resolution, sigma):
@@ -86,7 +80,7 @@ class Matplotlib(FigureCanvasKivyAgg):
         resolution = int(getattr(resolution, "text", resolution))
         sigma = int(getattr(sigma, "value", sigma))
 
-        self.parent.ids.control_field.disabled = True
+        self.controls.disabled = True
         self.disabled = True
 
         def reenable(*args):
@@ -97,7 +91,7 @@ class Matplotlib(FigureCanvasKivyAgg):
             clicks are processed. That means the computation will schedule un-disabling
             for the frame after it is itself completed.
             """
-            self.parent.ids.control_field.disabled = False
+            self.controls.disabled = False
             self.disabled = False
 
         def computation(*args):
@@ -117,13 +111,13 @@ class Matplotlib(FigureCanvasKivyAgg):
                 resolution=resolution,
                 sigma=sigma,
             )
-            self.node_points = [(x[0], x[1]) for x in contour]
+            self.contour = [(x[0], x[1]) for x in contour]
             Clock.schedule_once(reenable, 0)
 
         Clock.schedule_once(computation, 0)
 
 
-class ControlField(StackLayout):
+class Controls(StackLayout):
     degree = NumericProperty(1)
 
     def on_resolution_change(self, textinput):

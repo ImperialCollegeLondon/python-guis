@@ -13,16 +13,19 @@ packages = [{include = "python_guis"}]
 
 [tool.poetry.dependencies]
 python = "^3.7"
-kivy = {version = "^1.11",optional = true}
+kivy = "^1.11"
 matplotlib = "^3.1"
 scikit-image = "^0.15.0"
 kivy-garden = "^0.1.4"
 requests = "^2.22"
+flake8 = "^3.7"
+jupyter = "^1.0"
 
-[tool.poetry.extras]
-kivy = ["kivy"]
 
-
+[tool.poetry.dev-dependencies]
+pytest = "^5.0"
+pytest-flake8 = "^1.0"
+pytest-mypy = "^0.3.3"
 [tool.black]
 exclude = '\.venv/|\.eggs/'
 
