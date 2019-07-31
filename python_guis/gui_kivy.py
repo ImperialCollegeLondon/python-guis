@@ -7,6 +7,7 @@ from kivy.properties import ListProperty, NumericProperty, ObjectProperty
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.stacklayout import StackLayout
 from matplotlib.pyplot import Figure
+import numpy as np
 
 Config.set("input", "mouse", "mouse,multitouch_on_demand")
 Config.set("graphics", "width", "800")
@@ -15,7 +16,8 @@ Config.set("graphics", "height", "600")
 
 class Matplotlib(FigureCanvasKivyAgg):
     control_points = ListProperty([])
-    contour = ListProperty([])
+    contour = ObjectProperty(None, allownone=True, force_dispatch=True)
+    initial = ObjectProperty(None, allownone=True, force_dispatch=True)
     controls = ObjectProperty(None)
     diameter = 30.0
 
@@ -31,6 +33,9 @@ class Matplotlib(FigureCanvasKivyAgg):
         )
 
         def add_control_point(event):
+            if self.contour is not None:
+                self.remove_all()
+
             if event.inaxes is not None:
                 self.control_points.append((event.xdata, event.ydata))
 
@@ -55,22 +60,25 @@ class Matplotlib(FigureCanvasKivyAgg):
         self.draw_contour(axes)
         return super().draw()
 
+    def remove_all(self):
+        """Removes all control points and segments."""
+        self.initial = None
+        self.contour = None
+        self.control_points = []
+
     def draw_control_points(self, axes):
         if len(self.control_points) == 0:
             return
 
-        x, y = (
-            [x[0] for x in self.control_points] + [self.control_points[0][0]],
-            [x[1] for x in self.control_points] + [self.control_points[0][1]],
-        )
-        axes.plot(x, y, "ro-")
+        xy = np.array(self.control_points + [self.control_points[0]])
+        axes.plot(*xy.T, "ro-")
 
     def draw_contour(self, axes):
-        if len(self.contour) == 0:
+        if self.contour is None:
             return
 
-        x, y = ([x[0] for x in self.contour], [x[1] for x in self.contour])
-        axes.plot(x, y, "b-", linewidth=2)
+        axes.plot(*self.initial.T, color='blue', label="Initial")
+        axes.plot(*self.contour.T, color='orange', label="Segmented")
 
     def on_segment(self, degree, resolution, sigma):
         from model import segment_one_image
@@ -111,7 +119,8 @@ class Matplotlib(FigureCanvasKivyAgg):
                 resolution=resolution,
                 sigma=sigma,
             )
-            self.contour = [(x[0], x[1]) for x in contour]
+            self.initial = initial
+            self.contour = contour
             Clock.schedule_once(reenable, 0)
 
         Clock.schedule_once(computation, 0)
