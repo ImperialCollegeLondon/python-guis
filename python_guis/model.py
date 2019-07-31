@@ -10,7 +10,10 @@ from skimage.segmentation import active_contour
 def add_node(event, nodes, canvas):
     if event.inaxes is not None:
         nodes.append((event.xdata, event.ydata))
-        event.inaxes.plot([event.xdata], [event.ydata], marker="o", color="r")
+        if len(event.inaxes.lines) > 0:
+            event.inaxes.lines[0].set_data(np.array(nodes + [nodes[0]]).T)
+        else:
+            event.inaxes.plot(event.xdata, event.ydata, "ro-", label="Nodes")
         canvas.draw()
 
 

@@ -117,34 +117,39 @@ class BeetlePicker(tk.Tk):
         """Removes all segmentations from memory."""
         self.nodes = []
         self.remove_all_segments_button.configure(state=tk.DISABLED)
-        self.redraw()
+        self.axes.lines.clear()
 
     def add_node(self, event):
         """Adds a node to the plot."""
+        if len(self.nodes) == 0:
+            self.axes.lines.clear()
+
         add_node(event, self.nodes, self.fig.canvas)
+
         if len(self.nodes) >= 3:
             self.segment_button.configure(state=tk.NORMAL)
 
     def redraw(self, segment=None, initial=None):
         """Redraws the axes after making a changes to the data."""
-        self.axes.clear()
-
-        self.axes.imshow(self.image, cmap=plt.get_cmap("binary_r"))
-        self.axes.set_title(
-            "Left click to add a control node.\n"
-            "At least 3 are needed to perform a segmentation."
-        )
 
         if initial is not None:
-            self.axes.plot(*initial.T, label="Initial")
+            self.axes.plot(*initial.T, color='blue', label="Initial")
 
         if segment is not None:
-            self.axes.plot(*segment.T, label="Segmented")
+            self.axes.plot(*segment.T, color='orange', label="Segmented")
 
         if segment is not None or initial is not None:
             self.axes.legend()
 
         self.fig.canvas.draw()
+
+    def draw(self):
+        """Initial drawing of the plot."""
+        self.axes.imshow(self.image, cmap=plt.get_cmap("binary_r"))
+        self.axes.set_title(
+            "Left click to add a control node.\n"
+            "At least 3 are needed to perform a segmentation."
+        )
 
     def perform_segmentation(self):
         """Gets all the parameters from the widgets and performs the segmentation."""
@@ -156,17 +161,17 @@ class BeetlePicker(tk.Tk):
             self.image, self.nodes, sigma=sigma, resolution=resolution, degree=degree
         )
 
-        self.nodes = []
         self.remove_all_segments_button.configure(state=tk.NORMAL)
         self.segment_button.configure(state=tk.DISABLED)
 
+        self.nodes = []
         self.redraw(segment, initial)
 
     def read_image(self, *args):
         """Opens the image to segment."""
         path = Path(__file__).parent / "insects.jpg"
         self.image = imread(path, as_gray=True)
-        self.redraw()
+        self.draw()
         self.fig.canvas.mpl_connect("button_release_event", self.add_node)
 
 
