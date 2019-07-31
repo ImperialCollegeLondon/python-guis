@@ -1,0 +1,10 @@
+#:import on_button_clicked mwe_kivy_with_kv.on_button_clicked
+
+<MainWindow>:
+        Button:
+                text: "Click me"
+                on_press: on_button_clicked(label)
+            
+        Label:
+                id: label
+                text: ""
