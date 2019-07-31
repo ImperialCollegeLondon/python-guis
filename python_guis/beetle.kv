@@ -1,0 +1,119 @@
+#:import chain itertools.chain
+#:set text_padding dp(10)
+
+<MainWindow>:
+    orientation: "horizontal"
+    padding: 5
+    spacing: 5
+
+    Controls:
+        id: controls
+        size_hint: (.35, 1)
+        orientation: "lr-tb"
+        spacing: 5
+        padding: 5
+        canvas:
+            Color:
+                rgba: 0.1, 0.1, 0.12, 1
+
+            Rectangle:
+                size: self.size
+                pos: self.pos
+
+        ControlLabel:
+            text_size: self.width, None
+            size_hint: (1, None)
+            text: "Gaussian filter width:"
+
+        ControlLabel:
+            id: sigma_label
+            size: self.texture_size
+            size_hint: (0.1, None)
+            text: str(sigma.value)
+
+        Slider:
+            id: sigma
+            height: sigma_label.height
+            size_hint: (0.9, None)
+            min: 1
+            max: 10
+            step: 1
+            value: 5
+            value_track: True
+            value_track_color: 1, 0, 0, 1
+            
+        ControlLabel:
+            text_size: self.width, None
+            size_hint: (1, None)
+            text: "Spline parameters:"
+
+        ControlLabel:
+            id: degree_label
+            text_size: self.width, None
+            size_hint: (0.30, None)
+            text: "Degree:"
+
+        DegreeButton:
+            size_hint: (0.7 / 3, None)
+            height: degree_label.height
+            text: "1"
+
+        DegreeButton:
+            size_hint: (0.7 / 3, None)
+            height: degree_label.height
+            text: "3"
+
+        DegreeButton:
+            size_hint: (0.7 / 3, None)
+            height: degree_label.height
+            text: "5"
+
+        ControlLabel:
+            id: resolution_label
+            text_size: self.width, None
+            size_hint: (0.40, None)
+            text: "Resolution:"
+
+        TextInput:
+            id: resolution
+            size_hint: (0.60, None)
+            height: resolution_label.height
+            halign: "left"
+            valign: "middle"
+            text: "360"
+            multiline: False
+            on_text: controls.on_resolution_change(self)
+
+        Button:
+            size_hint: (1, None)
+            height: resolution_label.height + text_padding
+            text: "Perform segmentation"
+            disabled: len(play_field.control_points) <= 2
+            on_press:
+                play_field.on_segment(self.parent.degree, resolution, sigma)
+
+        Button:
+            size_hint: (1, None)
+            height: resolution_label.height + text_padding
+            text: "Remove all"
+            disabled: len(play_field.control_points) == 0
+            on_press: play_field.control_points = []
+
+    Matplotlib:
+        id: play_field
+        controls: controls
+        size_hint: (0.65, 1)
+
+
+<ControlLabel@Label>:
+    size: self.texture_size[0], int(self.texture_size[1]) + text_padding
+    halign: "left"
+    valign: "middle"
+
+
+<DegreeButton@ToggleButton>:
+    group: "degree"
+    text: "1"
+    state: "down" if self.parent.degree == int(self.text) else "normal"
+    allow_no_selection: False
+    on_press: self.parent.degree = int(self.text)

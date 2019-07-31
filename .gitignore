@@ -110,3 +110,4 @@ venv.bak/
 # Test results
 junit/
 *.xml
+pip-wheel-metadata
