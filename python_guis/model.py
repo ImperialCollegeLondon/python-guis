@@ -30,8 +30,8 @@ def segment_one_image(
     sigma=1,
     resolution=360,
     degree=3,
-    alpha=0.01,
-    beta=1,
+    alpha=0.001,
+    beta=0.1,
     gamma=0.01,
     **kwargs
 ):
