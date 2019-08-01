@@ -48,7 +48,7 @@ if __name__ == "__main__":
     from skimage.io import imread
 
     # First we load the image and transform it to greyscale
-    img = imread("beetles_lite.jpg", as_gray=True)
+    img = imread("insects.jpg", as_gray=True)
 
     # Variable to accumulate the nodes
     nodes: List = []
