@@ -1,11 +1,8 @@
-import os
 import tkinter as tk
-import tkinter.filedialog
-from collections import OrderedDict
 from tkinter import ttk
+from pathlib import Path
 
 import matplotlib.pyplot as plt
-import numpy as np
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
 
@@ -21,38 +18,35 @@ class BeetlePicker(tk.Tk):
 
         self.filename = ""
         self.image = None
-        self.segments = OrderedDict()
         self.nodes = []
 
         # gui variables
         self.sigma_scale = tk.IntVar(value=1)
         self.sigma_label = tk.StringVar(value=1)
-        self.ac_alpha = tk.DoubleVar(value=0.01)
-        self.ac_beta = tk.DoubleVar(value=0.1)
-        self.ac_gamma = tk.DoubleVar(value=0.01)
         self.spline_resolution = tk.IntVar(value=360)
         self.spline_degree = tk.IntVar(value=3)
-        self.beetle_id = tk.StringVar(value="beetle")
-        self.available_segmentations = None
         self.segment_button = None
-        self.remove_point_button = None
         self.remove_all_segments_button = None
-        self.remove_segment_button = None
-        self.save_segments_button = None
         self.fig = None
         self.axes = None
 
         # create the GUI
         self.create_gui()
 
+        # read image
+        self.read_image()
+
     def create_gui(self):
         """Creates the widgets and link them to the GUI variables."""
         self.columnconfigure(1, weight=1)
         self.rowconfigure(0, weight=1)
 
-        # The plot and navigation toolbar.
-        self.fig = Figure()
+        # The plot
+        self.fig = Figure(tight_layout=True)
         self.axes = self.fig.add_subplot()
+        self.axes.get_xaxis().set_visible(False)
+        self.axes.get_yaxis().set_visible(False)
+
         canvas = FigureCanvasTkAgg(self.fig, master=self)
         canvas.draw()
         canvas.get_tk_widget().grid(column=1, row=0, sticky=tk.NSEW)
@@ -61,13 +55,6 @@ class BeetlePicker(tk.Tk):
         mainframe = ttk.Frame(self, width=300)
         mainframe.grid(column=0, row=0, sticky=tk.NSEW, ipadx=15, ipady=15)
         mainframe.columnconfigure(1, weight=1)
-        mainframe.rowconfigure(30, weight=1)
-        mainframe.rowconfigure(50, weight=2)
-
-        # Read filename
-        ttk.Button(mainframe, text="Read image", command=self.read_image).grid(
-            row=0, columnspan=2, sticky=tk.NSEW, padx=5, pady=5
-        )
 
         # Gaussian filter
         ttk.Label(mainframe, text="Gaussian filter width: ").grid(
@@ -106,27 +93,6 @@ class BeetlePicker(tk.Tk):
             row=5, column=1, sticky=tk.NSEW, padx=5, pady=5
         )
 
-        # active contour
-        ttk.Label(mainframe, text="Active contour parameters: ").grid(
-            row=7, columnspan=2, sticky=tk.NSEW, padx=5, pady=5
-        )
-        ttk.Label(mainframe, text="- Alpha:").grid(
-            row=8, sticky=tk.NSEW, padx=5, pady=5
-        )
-        ttk.Entry(mainframe, textvariable=self.ac_alpha).grid(
-            row=8, column=1, sticky=tk.NSEW, padx=5, pady=5
-        )
-        ttk.Label(mainframe, text="- Beta:").grid(row=9, sticky=tk.NSEW, padx=5, pady=5)
-        ttk.Entry(mainframe, textvariable=self.ac_beta).grid(
-            row=9, column=1, sticky=tk.NSEW, padx=5, pady=5
-        )
-        ttk.Label(mainframe, text="- Gamma:").grid(
-            row=10, sticky=tk.NSEW, padx=5, pady=5
-        )
-        ttk.Entry(mainframe, textvariable=self.ac_gamma).grid(
-            row=10, column=1, sticky=tk.NSEW, padx=5, pady=5
-        )
-
         # Perform segmentation
         self.segment_button = ttk.Button(
             mainframe,
@@ -134,34 +100,9 @@ class BeetlePicker(tk.Tk):
             command=self.perform_segmentation,
             state=tk.DISABLED,
         )
-        self.segment_button.grid(row=40, columnspan=2, sticky=tk.NSEW, padx=5, pady=5)
-        ttk.Label(mainframe, text="Beetle ID:").grid(
-            row=41, sticky=tk.NSEW, padx=5, pady=5
-        )
-        ttk.Entry(mainframe, textvariable=self.beetle_id).grid(
-            row=41, column=1, sticky=tk.NSEW, padx=5, pady=5
-        )
+        self.segment_button.grid(row=6, columnspan=2, sticky=tk.NSEW, padx=5, pady=5)
 
         # Remove data
-        ttk.Label(mainframe, text="Remove:").grid(
-            row=46, sticky=tk.NSEW, padx=5, pady=5
-        )
-        self.remove_point_button = ttk.Button(
-            mainframe,
-            text="Last point",
-            command=self.remove_last_point,
-            state=tk.DISABLED,
-        )
-        self.remove_point_button.grid(row=47, sticky=(tk.S, tk.W, tk.E), padx=5, pady=5)
-        self.remove_segment_button = ttk.Button(
-            mainframe,
-            text="Last segment",
-            command=self.remove_last_segmentation,
-            state=tk.DISABLED,
-        )
-        self.remove_segment_button.grid(
-            row=48, sticky=(tk.S, tk.W, tk.E), padx=5, pady=5
-        )
         self.remove_all_segments_button = ttk.Button(
             mainframe,
             text="Remove all",
@@ -169,145 +110,69 @@ class BeetlePicker(tk.Tk):
             state=tk.DISABLED,
         )
         self.remove_all_segments_button.grid(
-            row=49, sticky=(tk.S, tk.W, tk.E), padx=5, pady=5
-        )
-
-        # Available segmentations
-        self.available_segmentations = tk.Text(mainframe, width=25)
-        self.available_segmentations.grid(
-            row=46, column=1, rowspan=10, sticky=tk.NSEW, padx=5, pady=5
-        )
-
-        # Save segmentations
-        self.save_segments_button = ttk.Button(
-            mainframe,
-            text="Save segmentations",
-            command=self.save_segmentations,
-            state=tk.DISABLED,
-        )
-        self.save_segments_button.grid(
-            row=91, columnspan=2, sticky=(tk.S, tk.W, tk.E), padx=5, pady=5
+            row=7, columnspan=2, sticky=(tk.S, tk.W, tk.E), padx=5, pady=5
         )
 
     def remove_all_segmentations(self):
         """Removes all segmentations from memory."""
-        self.segments = OrderedDict()
         self.nodes = []
-        self.remove_point_button["state"] = tk.DISABLED
-        self.remove_segment_button["state"] = tk.DISABLED
-        self.remove_all_segments_button["state"] = tk.DISABLED
-        self.save_segments_button["state"] = tk.DISABLED
-        self.available_segmentations.delete("1.0", tk.END)
-        self.redraw()
-
-    def remove_last_segmentation(self):
-        """Removes the last segmentation from memory."""
-        self.segments.popitem()
-        self.redraw()
-
-        if len(self.segments) == 0:
-            self.remove_segment_button["state"] = tk.DISABLED
-            self.remove_all_segments_button["state"] = tk.DISABLED
-            self.save_segments_button["state"] = tk.DISABLED
-
-    def remove_last_point(self):
-        """Removes last node drawn."""
-        if len(self.nodes) > 0:
-            self.nodes.pop(-1)
-            self.redraw()
-
-        if len(self.nodes) == 0:
-            self.remove_point_button["state"] = "disable"
+        self.remove_all_segments_button.configure(state=tk.DISABLED)
+        self.axes.lines.clear()
 
     def add_node(self, event):
         """Adds a node to the plot."""
+        if len(self.nodes) == 0:
+            self.axes.lines.clear()
+
         add_node(event, self.nodes, self.fig.canvas)
-        if len(self.nodes) > 0:
-            self.remove_point_button["state"] = tk.NORMAL
+
         if len(self.nodes) >= 3:
-            self.segment_button["state"] = tk.NORMAL
+            self.segment_button.configure(state=tk.NORMAL)
 
-    def add_segmentation_to_list(self, name, data, idx=0):
-        """Adds a new segmentation to the list."""
-        if name in self.segments:
-            new = name + str(idx)
-            self.add_segmentation_to_list(new, data, idx=idx + 1)
-        else:
-            self.segments[name] = data
-            self.available_segmentations.insert(tk.END, name + "\n")
-
-    def redraw(self):
+    def redraw(self, segment=None, initial=None):
         """Redraws the axes after making a changes to the data."""
-        self.axes.clear()
-        self.available_segmentations.delete("1.0", tk.END)
 
-        if self.image is not None:
-            self.axes.imshow(self.image, cmap=plt.get_cmap("binary_r"))
-            self.axes.set_title(
-                "Left click to add a control node.\n"
-                "At least 3 are needed to perform a segmentation."
-            )
+        if initial is not None:
+            self.axes.plot(*initial.T, color='blue', label="Initial")
 
-        for k, value in self.segments.items():
-            self.axes.plot(*value[0].T)
-            self.available_segmentations.insert(tk.END, k + "\n")
+        if segment is not None:
+            self.axes.plot(*segment.T, color='orange', label="Segmented")
 
-        for n in self.nodes:
-            self.axes.plot(n[0], n[1], marker="o", color="r")
+        if segment is not None or initial is not None:
+            self.axes.legend()
 
         self.fig.canvas.draw()
+
+    def draw(self):
+        """Initial drawing of the plot."""
+        self.axes.imshow(self.image, cmap=plt.get_cmap("binary_r"))
+        self.axes.set_title(
+            "Left click to add a control node.\n"
+            "At least 3 are needed to perform a segmentation."
+        )
 
     def perform_segmentation(self):
         """Gets all the parameters from the widgets and performs the segmentation."""
         sigma = self.sigma_scale.get()
         resolution = self.spline_resolution.get()
         degree = self.spline_degree.get()
-        alpha = self.ac_alpha.get()
-        beta = self.ac_beta.get()
-        gamma = self.ac_gamma.get()
-        name = self.beetle_id.get()
 
-        segment = segment_one_image(
-            self.image,
-            self.nodes,
-            sigma=sigma,
-            resolution=resolution,
-            degree=degree,
-            alpha=alpha,
-            beta=beta,
-            gamma=gamma,
+        segment, initial = segment_one_image(
+            self.image, self.nodes, sigma=sigma, resolution=resolution, degree=degree
         )
+
+        self.remove_all_segments_button.configure(state=tk.NORMAL)
+        self.segment_button.configure(state=tk.DISABLED)
 
         self.nodes = []
-        self.add_segmentation_to_list(name, segment)
-
-        self.remove_point_button["state"] = tk.DISABLED
-        self.remove_segment_button["state"] = tk.NORMAL
-        self.remove_all_segments_button["state"] = tk.NORMAL
-        self.save_segments_button["state"] = tk.NORMAL
-        self.segment_button["state"] = tk.DISABLED
-
-        self.redraw()
+        self.redraw(segment, initial)
 
     def read_image(self, *args):
-        """Opens a filedialog to choose the image to segment."""
-        self.filename = tk.filedialog.askopenfilename(
-            filetypes=(("JPG files", "*.jpg"), ("PNG files", "*.png"))
-        )
-
-        if self.filename != "":
-            self.image = imread(self.filename, as_gray=True)
-            self.redraw()
-            self.fig.canvas.mpl_connect("button_release_event", self.add_node)
-
-    def save_segmentations(self):
-        """Saves the available segmentations in a txt file."""
-        path = tk.filedialog.askdirectory(title="Select Destination directory")
-
-        if path != "":
-            for k, value in self.segments.items():
-                filename = os.path.join(path, k + ".txt")
-                np.savetxt(filename, value)
+        """Opens the image to segment."""
+        path = Path(__file__).parent / "insects.jpg"
+        self.image = imread(path, as_gray=True)
+        self.draw()
+        self.fig.canvas.mpl_connect("button_release_event", self.add_node)
 
 
 if __name__ == "__main__":

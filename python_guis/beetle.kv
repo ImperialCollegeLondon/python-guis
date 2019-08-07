@@ -97,7 +97,7 @@
             height: resolution_label.height + text_padding
             text: "Remove all"
             disabled: len(play_field.control_points) == 0
-            on_press: play_field.control_points = []
+            on_press: play_field.remove_all()
 
     Matplotlib:
         id: play_field

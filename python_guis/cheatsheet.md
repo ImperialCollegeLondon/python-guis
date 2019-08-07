@@ -281,6 +281,20 @@ button.configure(command=on_button_clicked)
 root.mainloop()
 ```
 
+When manipulating the content of other widgets, Tkinter often uses special variables that can retrieve or set those values and update the whole GUI in the process. For example, `tk.StringVar` can be used to set or get string variables. Others are `tk.DoubleVar`, `tk.IntVar` and `tk.BoolVar`. Applied to the previous example, we could write:
+
+```python
+label_var = tk.StringVar()
+label = ttk.Label(master=root, textvariable=label_var)
+```
+
+And then change the `on_button_clicked` to:
+
+```python
+def on_button_clicked():
+    label_var.set("Hello Pythoners!")
+```
+
 - **Kivy**
 
     - [Creating a basic Kivy application](https://kivy.org/doc/stable/guide/basic.html#create-an-application)
@@ -322,6 +336,8 @@ if __name__ == "__main__":
 
     HelloApp().run()
 ```
+
+Kivy has an alternative method for defining the interface, separating the definition of the widgets and all its properties from the logic. In this case, the widgets are defined in a ".kv" file which is used to build the interface automatically when loading. The examples `mwe_kivy_with_kv.py` and `hello.kv` result in the same application that the previous example but separating the interface definition and the logic. The Kivy documentation has more information on the [Kv language](https://kivy.org/doc/stable/guide/lang.html).
 
 Note: Running Tkinter or Kivy within a Jupyter notebook might cause the kernel to fail on exit. Better to run them as normal Python scripts.
 

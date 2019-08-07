@@ -10,7 +10,10 @@ from skimage.segmentation import active_contour
 def add_node(event, nodes, canvas):
     if event.inaxes is not None:
         nodes.append((event.xdata, event.ydata))
-        event.inaxes.plot([event.xdata], [event.ydata], marker="o", color="r")
+        if len(event.inaxes.lines) > 0:
+            event.inaxes.lines[0].set_data(np.array(nodes + [nodes[0]]).T)
+        else:
+            event.inaxes.plot(event.xdata, event.ydata, "ro-", label="Nodes")
         canvas.draw()
 
 
@@ -27,8 +30,8 @@ def segment_one_image(
     sigma=1,
     resolution=360,
     degree=3,
-    alpha=0.01,
-    beta=1,
+    alpha=0.001,
+    beta=0.1,
     gamma=0.01,
     **kwargs
 ):
@@ -45,7 +48,7 @@ if __name__ == "__main__":
     from skimage.io import imread
 
     # First we load the image and transform it to greyscale
-    img = imread("beetles_lite.jpg", as_gray=True)
+    img = imread("insects.jpg", as_gray=True)
 
     # Variable to accumulate the nodes
     nodes: List = []
