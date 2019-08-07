@@ -118,6 +118,8 @@ class BeetlePicker(tk.Tk):
         self.nodes = []
         self.remove_all_segments_button.configure(state=tk.DISABLED)
         self.axes.lines.clear()
+        self.axes.get_legend().remove()
+        self.fig.canvas.draw()
 
     def add_node(self, event):
         """Adds a node to the plot."""

@@ -17,7 +17,7 @@ python3 -mvenv venv
 . venv/bin/activate
 pip install -U setuptools wheel pip
 pip install -e .
-garden install --app matplotlib
+garden install matplotlib
 ```
 
 ## Installation instructions on a fresh Ubuntu Server 18.04 system:
