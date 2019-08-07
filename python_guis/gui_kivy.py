@@ -77,8 +77,8 @@ class Matplotlib(FigureCanvasKivyAgg):
         if self.contour is None:
             return
 
-        axes.plot(*self.initial.T, color='blue', label="Initial")
-        axes.plot(*self.contour.T, color='orange', label="Segmented")
+        axes.plot(*self.initial.T, color="blue", label="Initial")
+        axes.plot(*self.contour.T, color="orange", label="Segmented")
 
     def on_segment(self, degree, resolution, sigma):
         from model import segment_one_image

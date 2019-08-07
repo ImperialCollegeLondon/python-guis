@@ -118,6 +118,8 @@ class BeetlePicker(tk.Tk):
         self.nodes = []
         self.remove_all_segments_button.configure(state=tk.DISABLED)
         self.axes.lines.clear()
+        self.axes.get_legend().remove()
+        self.fig.canvas.draw()
 
     def add_node(self, event):
         """Adds a node to the plot."""
@@ -133,10 +135,10 @@ class BeetlePicker(tk.Tk):
         """Redraws the axes after making a changes to the data."""
 
         if initial is not None:
-            self.axes.plot(*initial.T, color='blue', label="Initial")
+            self.axes.plot(*initial.T, color="blue", label="Initial")
 
         if segment is not None:
-            self.axes.plot(*segment.T, color='orange', label="Segmented")
+            self.axes.plot(*segment.T, color="orange", label="Segmented")
 
         if segment is not None or initial is not None:
             self.axes.legend()
