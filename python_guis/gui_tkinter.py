@@ -135,10 +135,10 @@ class BeetlePicker(tk.Tk):
         """Redraws the axes after making a changes to the data."""
 
         if initial is not None:
-            self.axes.plot(*initial.T, color='blue', label="Initial")
+            self.axes.plot(*initial.T, color="blue", label="Initial")
 
         if segment is not None:
-            self.axes.plot(*segment.T, color='orange', label="Segmented")
+            self.axes.plot(*segment.T, color="orange", label="Segmented")
 
         if segment is not None or initial is not None:
             self.axes.legend()
