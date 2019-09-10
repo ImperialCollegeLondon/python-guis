@@ -14,7 +14,6 @@ class BeetlePicker(tk.Tk):
     def __init__(self):
         super().__init__()
         self.title("Beetle Picker")
-        self.minsize(1280, 720)
 
         self.filename = ""
         self.image = None
