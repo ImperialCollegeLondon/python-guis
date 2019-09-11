@@ -33,17 +33,6 @@ pip install -e .
 garden install matplotlib --kivy
 ```
 
-### Installation instructions on a fresh Ubuntu Server 18.04 system:
-
-Run the following two lines before running the instructions above for the situation when a desktop environment is already installed. 
-
-```bash
-sudo apt update
-sudo apt install lubuntu-desktop
-```
-
-The system will need to be re-started with the Desktop environment in order to run the Workshop. 
-
 ## Installation instructions on macOS:
 
 Tested on Mojave (10.14) using Python 3.7 installed directly from Python.org. Python installed with `homebrew` should also work, but there is a [known issue](https://github.com/matplotlib/matplotlib/issues/9637#issuecomment-515081488) when scrolling on a Matplotlib figure embedded in Tkinter that causes it to crash. Anaconda Python should also work - not tested, thought.
