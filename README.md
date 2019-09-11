@@ -1,4 +1,4 @@
-# GUIs for Python - improving the accessibility of scientific software 
+# GUIs for Python - improving the accessibility of research software 
  
 Research software has been a driving force behind the birth and rapid growth of informatics, but it was the appearance of graphic user interfaces (GUI) in the 1980s that made computers accessible to everyone. A GUI helps to reduce the learning curve for using software, increases the base of potential users and can ultimately increase citations and impact. Moreover, a well-designed GUI can perform validation and increase the robustness and reproducibility of the results, productively decoupling developers from users. 
  
