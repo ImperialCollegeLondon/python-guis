@@ -49,7 +49,7 @@ garden install matplotlib --kivy
 
 ## Installation instructions for Windows 10:
 
-The following installation instructions have been tested on Windows 10 using Git Bash (some extra configuration may be required) and PowerShell (you may temporarily need to disable the security directives in order to activate the virtual environment) with Anaconda Python 3.7.
+The following installation instructions have been tested on Windows 10 using Git Bash ([some extra configuration](https://stackoverflow.com/a/56170202/3778792) may be required) and PowerShell (you may temporarily need to disable the security directives in order to activate the virtual environment) with Anaconda Python 3.7.
 
 ```bash
 git clone https://github.com/ImperialCollegeLondon/python-guis.git
