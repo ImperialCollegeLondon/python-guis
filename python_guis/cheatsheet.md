@@ -18,7 +18,7 @@ The main sources of information and reference for each of the frameworks are:
     
 - *Kivy*:
 
-    - [Official Guides](https://ipywidgets.readthedocs.io/en/stable/index.html)
+    - [Official Guides](https://kivy.org/doc/stable/)
     - [API Reference](https://kivy.org/doc/stable/api-kivy.html)
     - [Wiki](https://github.com/kivy/kivy/wiki)
 
