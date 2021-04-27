@@ -9,7 +9,7 @@ setup(
     setup_requires=["pytest-runner"],
     install_requires=[
         "kivy",
-        "matplotlib",
+        "matplotlib==3.2.0",
         "numpy",
         "scikit-image",
         "scipy",

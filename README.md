@@ -2,20 +2,7 @@
  
 Research software has been a driving force behind the birth and rapid growth of informatics, but it was the appearance of graphical user interfaces (GUIs) in the 1980s that made computers accessible to everyone. A GUI helps to reduce the learning curve for using software, increases the base of potential users and can ultimately increase citations and impact. Moreover, a well-designed GUI can perform validation and increase the robustness and reproducibility of the results, productively decoupling developers from users. 
  
-This workshop will have three parts. In the first part, we will give an introduction to GUIs and review three of the most common Python packages to create them: Tkinter for the desktop, Jupyter Widgets for web and Kivy for mobile devices (45 min). The second part will be a hands-on session where attendees will explore a complete GUI developed with the framework of their choice and go through a range of exercises to learn the basics of GUI development (90 min). The last part will provide guidance on how to plan and implement a GUI, considering the target users, their objectives, accessibility, providing contextual help, etc. Finally, with the user-centric concepts of GUI design still fresh, attendees will work in groups to design a GUI for the well known command line software: Git (45 min). 
-
-
-# Installation instructions
-
-A remote virtual server will be available for attendees to use during the workshop. It will have all the required Python packages, libraries and examples required by the workshop pre-installed. However, if you prefer to setup your own laptop with the required software for the workshop, please follow the instructions below. 
-
-## Using the Workshop Remote Virtual Server
-
- Connection details will be available on arrival at the workshop. To access the remote server you will need a Remote Desktop Client:
-
-- Windows: It should include Remote Desktop already
-- MacOS: [Microsoft Remote Desktop](https://apps.apple.com/gb/app/microsoft-remote-desktop-10/id1295203466?mt=12) is available in the App Store (free)
-- Linux: Tested using [Remmina](https://remmina.org). It comes with Ubuntu and should be available in most Linux distributions. 
+This repository contains simple examples on using three GUI frameworks (Jupyter Widgets, Kivy and Tkinter) to perform the same tasks. A handy [cheatsheet](python_guis/cheatsheet.md) has been created providing quick access to a range of information for the three frameworks. 
 
 ## Installation instructions for a fresh Ubuntu Desktop 18.04 system
 
