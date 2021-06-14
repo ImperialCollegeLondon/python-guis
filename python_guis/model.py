@@ -38,8 +38,8 @@ def segment_one_image(
     initial = spline(np.array(nodes), resolution=resolution, degree=degree)
     fimg = gaussian(image, sigma=sigma)
     contour = active_contour(
-        fimg, initial, alpha=alpha, beta=beta, gamma=gamma, **kwargs
-    )
+        fimg, initial[..., ::-1], alpha=alpha, beta=beta, gamma=gamma, **kwargs
+    )[..., ::-1]
     return contour, initial
 
 
