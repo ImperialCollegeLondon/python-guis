@@ -1,5 +1,7 @@
 # Installation of the frameworks
 
+**Note:** If you followed the [installation instructions for this repository](../installation.md), you already have all you need in the virtual environment. This guide refers of what you will need to install if you want to use the frameworks in your own software.
+
 ## *Matplotlib*:
 
 Plots are common elements in most research software. None of these frameworks have any widget related to plots, but all of them have support to incorporating figures created with Matploltib,  the most common (although not the only one) plotting library in Python. Matplotlib can be installed with:
@@ -23,7 +25,7 @@ or
 conda install -c conda-forge ipywidgets
 ```
 
-The conda command automatically enables the extension. Depending on your system, installing Jupyter might install and enable the widgets automatically.
+The conda command automatically enables the extension. **Depending on your system, installing Jupyter might install and enable the widgets automatically.**
 
 ## *Tkinter*:
 
