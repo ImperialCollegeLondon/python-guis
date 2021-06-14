@@ -16,7 +16,7 @@ cd python-guis
 python3 -mvenv venv
 . venv/bin/activate
 pip install -U setuptools wheel pip
-pip install -r requirements.txt
+pip install -e .
 garden install matplotlib --kivy
 ```
 
@@ -30,7 +30,7 @@ cd python-guis
 python3 -mvenv venv
 . venv/bin/activate
 pip install -U setuptools wheel pip
-pip install -r requirements.txt
+pip install -e .
 garden install matplotlib --kivy
 ```
 
@@ -45,7 +45,7 @@ python -mvenv venv
 . venv/Scripts/activate
 pip install -U setuptools wheel pip
 pip install docutils pygments pypiwin32 kivy_deps.sdl2 kivy_deps.glew
-pip install -r requirements.txt
+pip install -e .
 garden install matplotlib --kivy
 ```
 
