@@ -232,6 +232,7 @@ The MWE for the three frameworks will have the following elements:
 We will ignore anything related to aesthetics or customisation of the look and feel, although that is often a big part of the creation of the GUI. The reason is that the three frameworks differ massively in how to do this, so it is best to focus on how to achieve the same functionality, for now. 
 
 - **Jupyter Widgets** (Needs to be run within a Jupyter notebook)
+
 ```python
 import ipywidgets as widgets
 from IPython.display import display
