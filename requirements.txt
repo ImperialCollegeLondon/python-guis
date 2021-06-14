@@ -1,0 +1,6 @@
+kivy
+matplotlib==3.2.0
+numpy
+scikit-image
+scipy
+jupyter

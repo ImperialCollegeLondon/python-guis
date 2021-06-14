@@ -16,13 +16,13 @@ cd python-guis
 python3 -mvenv venv
 . venv/bin/activate
 pip install -U setuptools wheel pip
-pip install -e .
+pip install -r requirements.txt
 garden install matplotlib --kivy
 ```
 
 ## Installation instructions for macOS:
 
-Tested on Mojave (10.14) using Python 3.7 installed directly from Python.org. Python installed with `homebrew` or `macports` should also work, but there is a [known issue](https://github.com/matplotlib/matplotlib/issues/9637#issuecomment-515081488) when scrolling on a Matplotlib figure embedded in Tkinter that causes it to crash. Anaconda Python should also work although it is untested:
+Tested on Mojave (10.14) using Python 3.7 and 3.8 installed directly from Python.org. Python installed with `homebrew` or `macports` should also work, but there is a [known issue](https://github.com/matplotlib/matplotlib/issues/9637#issuecomment-515081488) when scrolling on a Matplotlib figure embedded in Tkinter that causes it to crash. Anaconda Python should also work although it is untested:
 
 ```bash
 git clone https://github.com/ImperialCollegeLondon/python-guis.git
@@ -30,7 +30,7 @@ cd python-guis
 python3 -mvenv venv
 . venv/bin/activate
 pip install -U setuptools wheel pip
-pip install -e .
+pip install -r requirements.txt
 garden install matplotlib --kivy
 ```
 
@@ -45,7 +45,7 @@ python -mvenv venv
 . venv/Scripts/activate
 pip install -U setuptools wheel pip
 pip install docutils pygments pypiwin32 kivy_deps.sdl2 kivy_deps.glew
-pip install -e .
+pip install -r requirements.txt
 garden install matplotlib --kivy
 ```
 
