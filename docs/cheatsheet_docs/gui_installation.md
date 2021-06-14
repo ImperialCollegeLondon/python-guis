@@ -1,6 +1,6 @@
 # Installation of the frameworks
 
-**Note:** If you followed the [installation instructions for this repository](../installation.md), you already have all you need in the virtual environment. This guide refers of what you will need to install if you want to use the frameworks in your own software.
+**Note:** If you followed the [installation instructions for this repository](../installation.md), you already have all you need in the virtual environment. This guide refers to what you will need to install if you want to use the frameworks in your own software.
 
 ## *Matplotlib*:
 
