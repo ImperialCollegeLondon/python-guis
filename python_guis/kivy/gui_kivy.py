@@ -23,14 +23,13 @@ class Matplotlib(FigureCanvasKivyAgg):
 
     def __init__(self, **kwargs):
         from skimage.io import imread
+        from python_guis import INSECTS
 
         self.figure = Figure(tight_layout=True)
 
         super().__init__(self.figure, **kwargs)
         self.figure.patch.set_visible(False)
-        self.image_data = imread(
-            str(Path(__file__).parent / "insects.jpg"), as_gray=True
-        )
+        self.image_data = imread(INSECTS, as_gray=True)
 
         def add_control_point(event):
             if self.contour is not None:
@@ -81,7 +80,7 @@ class Matplotlib(FigureCanvasKivyAgg):
         axes.plot(*self.contour.T, color="orange", label="Segmented")
 
     def on_segment(self, degree, resolution, sigma):
-        from model import segment_one_image
+        from python_guis.model import segment_one_image
         from kivy.clock import Clock
 
         degree = int(degree)
@@ -146,6 +145,6 @@ class BeetleApp(App):
 
 
 if __name__ == "__main__":
-    from python_guis.gui_kivy import BeetleApp  # noqa
+    from python_guis.kivy.gui_kivy import BeetleApp  # noqa
 
     BeetleApp().run()

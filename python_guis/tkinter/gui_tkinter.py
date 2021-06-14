@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
 
+from python_guis import INSECTS
 from python_guis.model import add_node, segment_one_image
 from skimage.io import imread
 
@@ -170,8 +171,7 @@ class BeetlePicker(tk.Tk):
 
     def read_image(self, *args):
         """Opens the image to segment."""
-        path = Path(__file__).parent / "insects.jpg"
-        self.image = imread(path, as_gray=True)
+        self.image = imread(INSECTS, as_gray=True)
         self.draw()
         self.fig.canvas.mpl_connect("button_release_event", self.add_node)
 

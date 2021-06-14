@@ -1,2 +1,3 @@
-def inc(x: float) -> float:
-    return x + 1
+from pathlib import Path
+
+INSECTS = Path(__file__).parent / "insects.jpg"
