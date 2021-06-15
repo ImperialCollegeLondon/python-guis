@@ -4,3 +4,4 @@ numpy
 scikit-image
 scipy
 jupyter
+pyside2
