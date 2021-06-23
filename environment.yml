@@ -1,0 +1,14 @@
+name: pygui
+channels:
+  - defaults
+  - conda-forge
+dependencies:
+  - python=3.7
+  - kivy
+  - matplotlib=3.2.0
+  - scikit-image
+  - jupyter
+  - pyside2
+  - pip
+  - pip:
+      - -e .
