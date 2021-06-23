@@ -3,20 +3,26 @@ from tkinter import ttk
 
 
 def on_button_clicked():
-    label["text"] = "Hello Pythoners!"
+    return "Hello Pythoners!"
 
 
-# Create the widgets. This includes adding them to a container.
-root = tk.Tk()
-button = ttk.Button(master=root, text="Click me")
-label = ttk.Label(master=root, text="")
+class MySimpleGUI(tk.Tk):
+    def __init__(self):
+        super(MySimpleGUI, self).__init__()
 
-# Create their physical arrangement.
-button.pack(side=tk.LEFT)
-label.pack(side=tk.LEFT)
+        button = ttk.Button(master=self, text="Click me")
+        self.label = ttk.Label(master=self, text="")
 
-# Add the callback of the button.
-button.configure(command=on_button_clicked)
+        button.pack(side=tk.LEFT)
+        self.label.pack(side=tk.LEFT)
 
-# Run the main window loop, which starts the program.
-root.mainloop()
+        # Add the callback of the button.
+        button.configure(command=self._on_button_clicked)
+
+    def _on_button_clicked(self):
+        self.label["text"] = on_button_clicked()
+
+
+if __name__ == "__main__":
+    root = MySimpleGUI()
+    root.mainloop()
