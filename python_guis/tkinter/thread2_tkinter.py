@@ -29,7 +29,7 @@ def main():
     label.pack(expand=True, fill=tk.BOTH, side=tk.TOP)
 
     def status(text):
-        label["text"] = text  # the lambda to capture value
+        label["text"] = text
 
     pb_hd = ttk.Progressbar(
         ft, orient="horizontal", mode="determinate", max=100, variable=0

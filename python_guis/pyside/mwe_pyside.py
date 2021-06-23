@@ -15,7 +15,7 @@ def on_button_clicked():
 
 class MySimpleGUI(QtWidgets.QWidget):
     def __init__(self):
-        super().__init__()
+        super(MySimpleGUI, self).__init__()
 
         self.button = QtWidgets.QPushButton("Click me!")
         self.text = QtWidgets.QLabel("")
